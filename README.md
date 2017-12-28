@@ -1,2 +1,2 @@
-# su_utilities
-Some tool functions for data science
+# dataworks_utilities
+Some tool functions for data science.
