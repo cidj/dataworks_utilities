@@ -411,21 +411,21 @@ def classified_weighted_assess(jid,DfA,gbs,wg,DfB,vl):
         the group.
         yyy: It's a two-column dataframe contains jid and the sum number of weights
         that connect to it.
-        
+
     Example:
-        Suppose there are two dataframes. One (DfA) contains the ads (adid),operating 
-        system (os), viewtimes of ads (viewtimes), ids of users (uid), and their 
-        country (country). The other (DfB) contains ids of users (uid), the 
-        predicted class the users belong to (class_predict)  and the predicted 
-        values of the users (value_predict). Here we want to compare how much value 
-        every ['adid','country','os'] have brought, according to the 
-        value of the users they brought. Since every user might view more than 
-        one ads, so her value should be split to these ads, and we use 'viewtimes' 
+        Suppose there are two dataframes. One (DfA) contains the ads (adid),operating
+        system (os), viewtimes of ads (viewtimes), ids of users (uid), and their
+        country (country). The other (DfB) contains ids of users (uid), the
+        predicted class the users belong to (class_predict)  and the predicted
+        values of the users (value_predict). Here we want to compare how much value
+        every ['adid','country','os'] have brought, according to the
+        value of the users they brought. Since every user might view more than
+        one ads, so her value should be split to these ads, and we use 'viewtimes'
         as the weights here. Then we can use this function as follows:
-        Here are the input dataframes:    
-            
+        Here are the input dataframes:
+
         In: DfA
-        Out: 
+        Out:
            adid       os  viewtimes uid country
         0     u  android          2   a      GB
         1     v       os          1   b      US
@@ -441,25 +441,25 @@ def classified_weighted_assess(jid,DfA,gbs,wg,DfB,vl):
         11    w  android          2   a      US
         12    x       os          1   c      AE
         13    v       os          1   d      US
-        
+
         In: DfB
-        Out: 
+        Out:
           uid class_predict  value_predict
         0   b           cla              5
         1   c           clb              1
         2   d           clc              8
-        
+
         In: jid='uid'
         In: gbs=['adid','country','os']
         In: wg='viewtimes'
         In: vl=['value_predict']
-        
+
         In: A_gbs_vl,yyy=classified_weighted_assess(jid,DfA,gbs,wg,DfB,vl)
-        
+
         In: A_gbs_vl
-        Out: 
+        Out:
                               viewtimes  uids_num  tot_uid_pared_value_predict
-        adid country os                                                       
+        adid country os
         u    GB      android          4         3                          1.0
         v    AE      android          1         1                          1.0
              GB      android          3         1                          0.6
@@ -470,9 +470,9 @@ def classified_weighted_assess(jid,DfA,gbs,wg,DfB,vl):
                      os               1         1                          0.2
              GB      android          2         1                          NaN
         y    US      os               3         2                          0.2
-                  
+
         In: yyy
-        Out: 
+        Out:
           uid  tot_viewtimes_uid
         0   b                  5
         1   c                  5
@@ -784,7 +784,7 @@ def get_subdataframe(Acol,Bdf):
         0  6  5 NaN
         1  8  7 NaN
     """
-    
+
     cAdf=pd.DataFrame(index=Bdf.index)
     for i in Acol:
         cAdf[i]=Bdf[i] if i in Bdf.columns else np.nan
@@ -818,20 +818,20 @@ def apply_by_multiprocessing(df0,func,**kwargs):
     """
     Multiprocessing 'apply' for dataframes. Main idea of this function is from:
         https://gist.github.com/tejaslodaya/562a8f71dc62264a04572770375f4bba
-        
+
     Parameters:
         df: A dataframe.
         func: The function to apply.
         **kwargs: other aguments, like axis. It also should contain workers which
         determines the number of works in processing.
-        
+
     Returns:
         A dataframe.
-        
+
     Example:
         In: df = pd.DataFrame({'a':range(10), 'b':range(10,20)})
         In: df
-        Out: 
+        Out:
            a   b
         0  0  10
         1  1  11
@@ -843,9 +843,9 @@ def apply_by_multiprocessing(df0,func,**kwargs):
         7  7  17
         8  8  18
         9  9  19
-        
+
         In: apply_by_multiprocessing(df, sum, axis=1, workers=4)
-        Out: 
+        Out:
         0    10
         1    12
         2    14
@@ -857,17 +857,17 @@ def apply_by_multiprocessing(df0,func,**kwargs):
         8    26
         9    28
         dtype: int64
-        
+
         In: apply_by_multiprocessing(df, sum, axis=0, workers=4)
-        Out: 
+        Out:
         a     45
         b    145
         dtype: int64
-        
+
         In: def square(x):
                 return x**2
         In: apply_by_multiprocessing(df, square, workers=4)
-        Out: 
+        Out:
             a    b
         0   0  100
         1   1  121
@@ -879,13 +879,13 @@ def apply_by_multiprocessing(df0,func,**kwargs):
         7  49  289
         8  64  324
         9  81  361
-        
+
     """
-    
+
     workers=kwargs.pop('workers')
     flag=0
-    
-    if 'axis' in kwargs.keys():        
+
+    if 'axis' in kwargs.keys():
         axis=kwargs['axis']
         if(axis==0):
             flag=1
@@ -895,14 +895,14 @@ def apply_by_multiprocessing(df0,func,**kwargs):
             df=df0
     else:
         df=df0
-        
+
     pool = multiprocessing.Pool(processes=workers)
-    result = pool.map(_apply_df, [(d, func, i, kwargs) for i,d in enumerate(np.array_split(df, workers))])  
+    result = pool.map(_apply_df, [(d, func, i, kwargs) for i,d in enumerate(np.array_split(df, workers))])
     pool.close()
-    
+
     result=sorted(result,key=lambda x:x[0])
     res=pd.concat([i[1] for i in result])
-    
+
     if flag==1:
         return res.transpose()
     else:
@@ -912,129 +912,129 @@ def apply_by_multiprocessing(df0,func,**kwargs):
 def mgrid_box(X,axis=0,linj=200j,marg_rate=0.1):
     """
     Get a mesh grid range which covers all the n-dimentional points.
-    
+
     Parameters:
         X: An 2-D array, consists of vectors.
         axis: if 0, the shape of every vector in X is (-1,1), otherwise (1,-1).
-        linj: If it is a complex number, it is the number of points to create 
+        linj: If it is a complex number, it is the number of points to create
         between the maximum and minimum values. Or if it is a real number, it is
         the step length between them.
         marg_rate: It shows how much of the margins should be included.
-        
+
     Returns:
         zz: An array includes n subarrays. Here n is the space dimension. Each
         subarray contains coordinates of an axis.
-        
+
     Example:
         In: X
-        Out: 
+        Out:
         array([[4, 5],
                [6, 7]])
         In: mgrid_box(X,axis=0,linj=4j,marg_rate=0.1)
-        Out: 
+        Out:
         array([[[ 3.8,  3.8,  3.8,  3.8],
                 [ 4.6,  4.6,  4.6,  4.6],
                 [ 5.4,  5.4,  5.4,  5.4],
                 [ 6.2,  6.2,  6.2,  6.2]],
-        
+
                [[ 4.8,  5.6,  6.4,  7.2],
                 [ 4.8,  5.6,  6.4,  7.2],
                 [ 4.8,  5.6,  6.4,  7.2],
-                [ 4.8,  5.6,  6.4,  7.2]]])            
+                [ 4.8,  5.6,  6.4,  7.2]]])
     """
 
     if len(X.shape)!=2:
         raise Exception('Only 2-D array is acceptable!')
-        
+
     o_axis=1-axis
-    
+
     X_max=np.max(X,axis=axis)
-    X_min=np.min(X,axis=axis)  
+    X_min=np.min(X,axis=axis)
     lenX=X_max-X_min
     Marg_X=marg_rate*lenX
     X_edgmin, X_edgmax = X_min - Marg_X, X_max + Marg_X
-    
+
     num=np.size(X,axis=o_axis)
-    
+
     slices=[slice(X_edgmin[i],X_edgmax[i],linj) for i in np.arange(num)]
     zz=np.mgrid[slices] if axis==0 else np.array([i.T for i in np.mgrid[slices]])
-    
+
     return zz
 
 
-def corresponding_ravel(X,axis=0):  
+def corresponding_ravel(X,axis=0):
     """
     Given an n-dimentional array, remove its 0th dimention, ravel all other dimentions,
     and return an 2-D matrix.
-    
+
     Parameters:
         X: The input array.
         axis: if it is 0, the output contains columns, otherwise rows.
-        
+
     Returns:
         t1: A 2-D array.
-        
+
     Example:
         In: aa=np.array([[[0,1],[2,3]],[[4,5],[6,7]]])
         In: aa
-        Out: 
+        Out:
         array([[[0, 1],
-                [2, 3]],    
-    
+                [2, 3]],
+
                [[4, 5],
                 [6, 7]]])
         In: Corresponding_ravel(aa,axis=0)
-        Out: 
+        Out:
         array([[0, 4],
                [1, 5],
                [2, 6],
-               [3, 7]])    
+               [3, 7]])
     """
-    
+
     t1=np.c_[tuple([di.ravel() for di in X])]
-    
+
     if axis==1:
         t1=t1.T
-        
+
     return t1
 
 
 def plot_region_prediction(X,model,linj=200j,marg_rate=0.1,centroids=None):
     """
     Plot a prediction 2-D figure using a classification or clustering model.
-    
+
     Parameters:
         X: The input data, contains two columns.
         model: The model, wich should have a 'predict' method.
-        linj: Number of grids in each dimension. If it is a complex number, it 
+        linj: Number of grids in each dimension. If it is a complex number, it
         is the number of points to create between the maximum and minimum values.
         Or if it is a real number, it is the step length between them.
         marg_rate: It shows how much of the margins should be included.
         centroids: If it's clustering, you can add some centroids to plot. 2-col
         array.
-        
+
     Returns:
         fig: A figure.
     """
-    
+
     zz=mgrid_box(X,axis=0,linj=linj,marg_rate=marg_rate)
     zz1=corresponding_ravel(zz,axis=0)
     Z = model.predict(zz1)
     Z = Z.reshape(zz[0].shape)
-    
+
 #    fig=plt.figure()
 
     plt.imshow(Z, interpolation='nearest',
                extent=(zz[0].min(), zz[0].max(), zz[1].min(), zz[1].max()),
                cmap=plt.cm.Paired,
                aspect='auto', origin='lower')
-    
+
     plt.plot(X[:,0],X[:,1], 'k.', markersize=5)
-    
+
     if centroids is not None:
 #        plt.scatter(centroids[:, 0], centroids[:, 1],
 #                    marker='x', s=169, linewidths=3,
-#                    color='w', zorder=10)  
+#                    color='w', zorder=10)
         cs=model.predict(centroids)
         for i in range(0,len(centroids)):
             plt.text(centroids[i, 0], centroids[i, 1],cs[i],
@@ -1253,3 +1253,14 @@ class BatchedDataset:
 
     def reset_epoch(self):
         self._index_in_epoch=0
+
+def append_to_csv(df, csvFilePath, sep=",",supersede=False):
+    import os
+    if (not os.path.isfile(csvFilePath)) or supersede==True:
+        df.to_csv(csvFilePath, index=False, sep=sep)
+    elif len(df.columns) != len(pd.read_csv(csvFilePath, nrows=1, sep=sep).columns):
+        raise Exception("Columns do not match!! Dataframe has " + str(len(df.columns)) + " columns. CSV file has " + str(len(pd.read_csv(csvFilePath, nrows=1, sep=sep).columns)) + " columns.")
+    elif not (df.columns == pd.read_csv(csvFilePath, nrows=1, sep=sep).columns).all():
+        raise Exception("Columns and column order of dataframe and csv file do not match!!")
+    else:
+        df.to_csv(csvFilePath, mode='a', index=False, sep=sep, header=False)
