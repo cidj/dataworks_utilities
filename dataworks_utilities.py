@@ -408,6 +408,8 @@ def csvs_scattered_to_grouped(path_dir, inlist, outlist, gcols,
 
     pdfs=pd.read_csv(filelist[0],usecols=gcols)
     pdfs.drop_duplicates(inplace=True)
+
+    print("Collecting items for group:\n")
     for i in range(1,len(filelist)):
         pdfs=pdfs.append(pd.read_csv(filelist[i],usecols=gcols),ignore_index=True)
         pdfs.drop_duplicates(inplace=True)
@@ -426,16 +428,19 @@ def csvs_scattered_to_grouped(path_dir, inlist, outlist, gcols,
             if os.path.isfile(os.path.join(path_dir,str(catalog)+'.csv')):
                 os.remove(os.path.join(path_dir,str(catalog)+'.csv'))
 
+    print("Start processing files:\n")
     for i in range(0,len(filelist)):
         fi=pd.read_csv(filelist[i],usecols=scols)
         for j,ja in enumerate(aa_ed):
             wrtj=pd.merge(ja, fi, how='inner', on=gcols)
             append_to_csv(wrtj, os.path.join(path_dir,outlist[j]))
+        print(str(i)+'th file finished.')
 
     if catalog:
         for i, d in enumerate(aa_ed):
             d['_@_FILE_']=outlist[i]
             append_to_csv(d, os.path.join(path_dir,str(catalog)+'.csv'))
+        print('Catalog file created.')
 
 
 def DictVectDataFrame(testdata):
