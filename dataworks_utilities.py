@@ -346,7 +346,8 @@ def csvs_scattered_to_grouped(path_dir, inlist, outlist, gcols,
         scols: The columns list to use. If it is None, all columns are used. If
         not None, it must include all items in gcols.
         catalog: If it is a string, a catalog file with the name will be created.
-        If False, no catalog created.
+        If False, no catalog created. Make sure that there is no column named
+        '_@_FILE_', or there might be some error due to the same name.
         supersede: If True, existing files with the same names will be replaced.
 
     Returns:
