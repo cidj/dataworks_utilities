@@ -410,7 +410,7 @@ def csvs_scattered_to_grouped(path_dir, inlist, outlist, gcols,
     pdfs=pd.read_csv(filelist[0],usecols=gcols)
     pdfs.drop_duplicates(inplace=True)
 
-    print("Collecting items for group:\n")
+    print("Collecting items for group.\n")
     for i in range(1,len(filelist)):
         pdfs=pdfs.append(pd.read_csv(filelist[i],usecols=gcols),ignore_index=True)
         pdfs.drop_duplicates(inplace=True)
