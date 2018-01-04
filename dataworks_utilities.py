@@ -240,15 +240,16 @@ def load_dataset(path_dir, filelist,numlist,dtype=None):
         filelist: File names list.
         numlist: A list of numbers descirbes the number of records to load, respectively.
         If the number is negative, it means to load the entire file.
+        dtype: The dtype in pandas.read_csv.
 
     Returns:
         actdat: A dataframe.
     """
 
-    actdat=pd.read_csv(os.path.join(path_dir,filelist[0]),dtype=dtype).iloc[0:numlist[0]]
+    actdat=pd.read_csv(os.path.join(path_dir,filelist[0]),dtype=dtype,nrows=numlist[0])
     for i in range(1,len(filelist)):
         if numlist[i]>0:
-            actdat=actdat.append(pd.read_csv(path_dir+filelist[i],dtype=dtype).iloc[0:numlist[i]])
+            actdat=actdat.append(pd.read_csv(path_dir+filelist[i],dtype=dtype,nrows=numlist[i])
         else:
             actdat=actdat.append(pd.read_csv(path_dir+filelist[i],dtype=dtype))
 
