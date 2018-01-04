@@ -376,7 +376,7 @@ def csvs_scattered_to_grouped(path_dir, inlist, outlist, gcols,
         In: gcols=[ 'A_Id','P_Id' ]
         In: scols=['A_Id','P_Id','CN1', 'CN2']
         In: csvs_scattered_to_grouped(path_dir, inlist, outlist, gcols,
-                              sort=1, scols=scols, catalog='cat',supersede=True)
+                              sort=1, scols=scols, catalog='cat.csv',supersede=True)
 
         The generated files are:
         'out1.csv'
@@ -426,8 +426,8 @@ def csvs_scattered_to_grouped(path_dir, inlist, outlist, gcols,
         for i in outlist:
             if os.path.isfile(os.path.join(path_dir,i)):
                 os.remove(os.path.join(path_dir,i))
-            if os.path.isfile(os.path.join(path_dir,str(catalog)+'.csv')):
-                os.remove(os.path.join(path_dir,str(catalog)+'.csv'))
+            if os.path.isfile(os.path.join(path_dir,str(catalog))):
+                os.remove(os.path.join(path_dir,str(catalog)))
 
     print("Start processing files:\n")
     for i in range(0,len(filelist)):
@@ -440,7 +440,7 @@ def csvs_scattered_to_grouped(path_dir, inlist, outlist, gcols,
     if catalog:
         for i, d in enumerate(aa_ed):
             d['_@_FILE_']=outlist[i]
-            append_to_csv(d, os.path.join(path_dir,str(catalog)+'.csv'))
+            append_to_csv(d, os.path.join(path_dir,str(catalog)))
         print('Catalog file created.')
 
 
