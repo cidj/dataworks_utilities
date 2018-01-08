@@ -190,7 +190,7 @@ def value_to_class_index(bin_arr, val_arr):
     according to the results.
 
     Parameters:
-        bin_arr: A list of numbers..
+        bin_arr: A list of numbers.
         val_arr: The array to be classified.
 
     Returns:
