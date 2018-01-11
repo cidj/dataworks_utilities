@@ -60,6 +60,32 @@ def rem_str(prelist,names):
 
     return names
 
+def strSeq_uniquify(strSeq,connector='_'):
+    """
+    Rename a sequence of strings if there are two or more of them are identical.
+
+    Parameters:
+    strSeq: The orignal sequence, probably a list or column names.
+    connector: The connector between the name and the ordinal number.
+
+    Returns:
+    new_strSeq: The new columns with all the same names distinguished with
+    numbers.
+    """
+
+    fm="{}"+connector+"{}"
+
+    new_strSeq = []
+    for item in strSeq:
+        counter = 0
+        newitem = item
+        while newitem in new_strSeq:
+            counter += 1
+            newitem = fm.format(item, counter-1)
+        new_strSeq.append(newitem)
+
+    return new_strSeq
+
 
 def clear_columns(prefixlist,datas,style=0, inplace=False):
     """
