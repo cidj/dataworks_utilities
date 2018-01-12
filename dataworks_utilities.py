@@ -65,12 +65,18 @@ def strSeq_uniquify(strSeq,connector='_'):
     Rename a sequence of strings if there are two or more of them are identical.
 
     Parameters:
-    strSeq: The orignal sequence, probably a list or column names.
-    connector: The connector between the name and the ordinal number.
+        strSeq: The orignal sequence, probably a list or column names.
+        connector: The connector between the name and the ordinal number.
 
     Returns:
-    new_strSeq: The new columns with all the same names distinguished with
-    numbers.
+        new_strSeq: The new list with all the same names distinguished with
+        numbers.
+
+    Example:
+        In: strseq
+        Out: Index(['blah', 'blah2', 'blah3', 'blah', 'blah'], dtype='object')
+        In: strSeq_uniquify(strseq,connector='@')
+        Out: ['blah', 'blah2', 'blah3', 'blah@0', 'blah@1']
     """
 
     fm="{}"+connector+"{}"
