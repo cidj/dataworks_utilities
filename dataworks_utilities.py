@@ -1013,7 +1013,8 @@ def get_subdataframe(Acol,Bdf):
 
 def dataframe_diff(xxa,xxb):
     """
-    This function find the differences of two series or dataframes.
+    This function find the differences of two series or dataframes. Make
+    sure there is no column named '_merge'.
 
     Parameters:
         xxa, xxb: Two dataframes/series to be compared.
