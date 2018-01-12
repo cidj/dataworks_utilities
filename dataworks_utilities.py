@@ -21,6 +21,7 @@ from sklearn.feature_extraction import DictVectorizer
 from sklearn.externals import joblib
 from scipy.optimize import curve_fit
 import multiprocessing
+from collections import defaultdict
 
 
 def drop_columns(cols,actdata,inplace=False):
@@ -59,6 +60,68 @@ def rem_str(prelist,names):
         names=[name.replace(prefix,'') for name in names]
 
     return names
+
+
+def list_duplicates_of(seq,item):
+    """
+    List duplicates of an item in a sequence.
+    From https://stackoverflow.com/questions/5419204/
+
+    Parameters:
+        seq: The sequence.
+        item: The item.
+
+    Returns:
+        locs: An indexes list of the item in seq.
+
+    Example:
+        In: source = "ABABDBAAEDSBQEWBAFLSAFB"
+        In: print (list_duplicates_of(source, 'B'))
+        Out: [1, 3, 5, 11, 15, 22]
+    """
+
+    start_at = -1
+    locs = []
+    while True:
+        try:
+            loc = seq.index(item,start_at+1)
+        except ValueError:
+            break
+        else:
+            locs.append(loc)
+            start_at = loc
+    return locs
+
+
+def list_duplicates(seq,threshold=1):
+    """
+    List duplicates of all items in a sequence.
+    Modified from https://stackoverflow.com/questions/5419204/
+
+    Parameters:
+        seq: The sequence.
+
+    Returns:
+        locs: A generator for duplicates
+
+    Example:
+        In: source = "ABABDBAAEDSBQEWBAFLSAFB"
+        In: list(list_duplicates(source,threshold=2))
+        Out :
+        [('A', [0, 2, 6, 7, 16, 20]),
+         ('B', [1, 3, 5, 11, 15, 22]),
+         ('D', [4, 9]),
+         ('E', [8, 13]),
+         ('S', [10, 19]),
+         ('F', [17, 21])]
+    """
+
+    tally = defaultdict(list)
+    for i,item in enumerate(seq):
+        tally[item].append(i)
+    return ((key,locs) for key,locs in tally.items()
+                            if len(locs)>=threshold)
+
 
 def strSeq_uniquify(strSeq,connector='_'):
     """
@@ -1013,11 +1076,11 @@ def get_subdataframe(Acol,Bdf):
 
 def dataframe_diff(xxa,xxb):
     """
-    This function find the differences of two series or dataframes. Make
+    This function find the differences of two dataframes. Make
     sure there is no column named '_merge'.
 
     Parameters:
-        xxa, xxb: Two dataframes/series to be compared.
+        xxa, xxb: Two dataframes to be compared.
 
     Returns:
         diff: A dataframe shows the differences of the inputs.
