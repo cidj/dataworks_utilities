@@ -1034,7 +1034,7 @@ def dataframe_diff(xxa,xxb):
 def _apply_df(args):
     df, func, num, kwargs = args
     return num, df.apply(func, **kwargs)
-def apply_by_multiprocessing(df0,func,**kwargs):
+def apply_by_multiprocessing(df0,func,workers=4,**kwargs):
     """
     Multiprocessing 'apply' for dataframes. Main idea of this function is from:
         https://gist.github.com/tejaslodaya/562a8f71dc62264a04572770375f4bba
@@ -1064,7 +1064,7 @@ def apply_by_multiprocessing(df0,func,**kwargs):
         8  8  18
         9  9  19
 
-        In: apply_by_multiprocessing(df, sum, axis=1, workers=4)
+        In: apply_by_multiprocessing(df, sum, workers=4, axis=1)
         Out:
         0    10
         1    12
@@ -1078,7 +1078,7 @@ def apply_by_multiprocessing(df0,func,**kwargs):
         9    28
         dtype: int64
 
-        In: apply_by_multiprocessing(df, sum, axis=0, workers=4)
+        In: apply_by_multiprocessing(df, sum, workers=4, axis=0)
         Out:
         a     45
         b    145
@@ -1102,7 +1102,6 @@ def apply_by_multiprocessing(df0,func,**kwargs):
 
     """
 
-    workers=kwargs.pop('workers')
     flag=0
 
     if 'axis' in kwargs.keys():
