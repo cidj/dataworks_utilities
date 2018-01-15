@@ -540,25 +540,6 @@ def csvs_scattered_to_grouped(path_dir, inlist, outlist, gcols,
         print('Catalog file created.')
 
 
-def DictVectDataFrame(testdata):
-    """
-    Vectorize non-numeric features in dataframe while keep numeric features
-    unchanged.
-
-    Parameters:
-        testdata: A dataframe.
-
-    Returns:
-        zzz: The result as a dataframe.
-    """
-
-    vec = DictVectorizer()
-    xxx=vec.fit_transform(testdata.to_dict('records')).toarray()
-    zzz=pd.DataFrame(xxx,columns=vec.feature_names_)
-
-    return zzz
-
-
 def all_equal(iterator):
     """Check if a sequence or other container contains identical element. The
     code is from http://stackoverflow.com/q/3844948/.
@@ -1536,3 +1517,29 @@ class BatchedDataset:
 
     def reset_epoch(self):
         self._index_in_epoch=0
+
+
+
+# Deprecated:
+
+
+# def DictVectDataFrame(testdata):
+#     """
+#     2018/01/15: Do not use this function. Use the buit in function
+#     pandas.get_dummies instead.
+#
+#     Vectorize non-numeric features in dataframe while keep numeric features
+#     unchanged.
+#
+#     Parameters:
+#         testdata: A dataframe.
+#
+#     Returns:
+#         zzz: The result as a dataframe.
+#     """
+#
+#     vec = DictVectorizer()
+#     xxx=vec.fit_transform(testdata.to_dict('records')).toarray()
+#     zzz=pd.DataFrame(xxx,columns=vec.feature_names_)
+#
+#     return zzz
