@@ -17,7 +17,6 @@ import string, os
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-from sklearn.feature_extraction import DictVectorizer
 from sklearn.externals import joblib
 from scipy.optimize import curve_fit
 import multiprocessing
@@ -1538,6 +1537,7 @@ class BatchedDataset:
 #         zzz: The result as a dataframe.
 #     """
 #
+#     from sklearn.feature_extraction import DictVectorizer
 #     vec = DictVectorizer()
 #     xxx=vec.fit_transform(testdata.to_dict('records')).toarray()
 #     zzz=pd.DataFrame(xxx,columns=vec.feature_names_)
