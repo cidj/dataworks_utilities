@@ -1518,7 +1518,36 @@ class BatchedDataset:
         self._index_in_epoch=0
 
 
+def pd_parse_column(ser,parse_fun,pick_row=0,workers=6):
 
+    print('pd_parse_column: Started.')
+
+    mapto=ut.apply_by_multiprocessing(ser,parse_fun,workers=workers)
+    print('pd_parse_column: Applied ', str(parse_fun.__name__),'.')
+
+    for i in range(0,len(mapto)):
+        mapto.iloc[i].columns=ut.strSeq_uniquify(mapto.iloc[i].columns)
+    print('pd_parse_column: Renamed duplicated names.')
+
+    mapto_cols=set(ut.flatten(mapto.apply(lambda x: x.columns.tolist()).tolist()))
+    print('pd_parse_column: Columns collected.')
+
+    ddf=pd.DataFrame(columns=mapto_cols)
+
+    def _concat_lst(pr):
+        ddlst=[ddf]+[mapto.iloc[i].iloc[[pr]] if not mapto.iloc[i].empty else ddf
+               for i in range(0,len(mapto))]
+        return pd.concat(ddlst)
+
+    if pick_row is None:
+        ddf=[_concat_lst(i) for i in range(0,len(mapto.iloc[0]))]
+    else:
+        ddf=_concat_lst(pick_row)
+    print('pd_parse_column: Connected the results.')
+
+    return ddf
+
+    
 # Deprecated:
 
 
