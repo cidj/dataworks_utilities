@@ -505,7 +505,7 @@ def csvs_scattered_to_grouped(path_dir, inlist, outlist, gcols,
     pdfs=pd.read_csv(filelist[0],usecols=gcols)
     pdfs.drop_duplicates(inplace=True)
 
-    print("Collecting items for group.\n")
+    print("csvs_scattered_to_grouped: Collecting items for group.\n")
     for i in range(1,len(filelist)):
         pdfs=pdfs.append(pd.read_csv(filelist[i],usecols=gcols),ignore_index=True)
         pdfs.drop_duplicates(inplace=True)
@@ -524,19 +524,19 @@ def csvs_scattered_to_grouped(path_dir, inlist, outlist, gcols,
             if os.path.isfile(os.path.join(path_dir,str(catalog))):
                 os.remove(os.path.join(path_dir,str(catalog)))
 
-    print("Start processing files:\n")
+    print("csvs_scattered_to_grouped: Start processing files:\n")
     for i in range(0,len(filelist)):
         fi=pd.read_csv(filelist[i],usecols=scols)
         for j,ja in enumerate(aa_ed):
             wrtj=pd.merge(ja, fi, how='inner', on=gcols)
             append_to_csv(wrtj, os.path.join(path_dir,outlist[j]))
-        print(str(i)+'th file finished.')
+        print('csvs_scattered_to_grouped: '+str(i)+' files finished.')
 
     if catalog:
         for i, d in enumerate(aa_ed):
             d['_@_FILE_']=outlist[i]
             append_to_csv(d, os.path.join(path_dir,str(catalog)))
-        print('Catalog file created.')
+        print('csvs_scattered_to_grouped: Catalog file created.')
 
 
 def all_equal(iterator):
@@ -875,16 +875,16 @@ def save_and_replace_model(model, model_path,model_name):
         try:
             os.remove(model_path)
             joblib.dump(model, model_path)
-            print(os.path.basename(model_path)+" is replaced and saved!")
+            print("save_and_replace_model: "+os.path.basename(model_path)+" is replaced and saved!")
         except OSError:
-            print("Models couldn't be saved")
+            print("save_and_replace_model: Models couldn't be saved")
     else:
         if os.path.isdir(os.path.dirname(model_path)):
             pass
         else:
             os.mkdir(os.path.dirname(model_path))
         joblib.dump(model, model_path)
-        print(os.path.basename(model_path)+" is saved!")
+        print("save_and_replace_model: "+os.path.basename(model_path)+" is saved!")
 
 
 def series_to_supervised(data, n_in=1, delta_in=1, n_out=1,delta_out=1, dropnan=True):
@@ -1547,7 +1547,7 @@ def pd_parse_column(ser,parse_fun,pick_row=0,workers=6):
 
     return ddf
 
-    
+
 # Deprecated:
 
 
