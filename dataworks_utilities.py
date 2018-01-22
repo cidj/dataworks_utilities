@@ -856,7 +856,7 @@ def insert_with_labels(dat,dic,behind=True):
     return dat
 
 
-def save_replace_obj(obj, obj_path,obj_name,supersede=False):
+def save_obj_joblib(obj, obj_path,obj_name,supersede=False):
     """
     Save an object using joblib.dump.
 
@@ -876,18 +876,18 @@ def save_replace_obj(obj, obj_path,obj_name,supersede=False):
             try:
                 os.remove(obj_path)
                 joblib.dump(obj, obj_path)
-                print("save_replace_obj: "+os.path.basename(obj_path)+" is replaced and saved!")
+                print("save_obj_joblib: "+os.path.basename(obj_path)+" is replaced and saved!")
             except OSError:
-                print("save_replace_obj: Object couldn't be saved")
+                print("save_obj_joblib: Object couldn't be saved")
         else:
-            raise OSError("save_replace_obj: There exists a object with the same name already.")
+            raise OSError("save_obj_joblib: There exists a object with the same name already.")
     else:
         if os.path.isdir(os.path.dirname(obj_path)):
             pass
         else:
             os.mkdir(os.path.dirname(obj_path))
         joblib.dump(obj, obj_path)
-        print("save_replace_obj: "+os.path.basename(obj_path)+" is saved!")
+        print("save_obj_joblib: "+os.path.basename(obj_path)+" is saved!")
 
 
 def series_to_supervised(data, n_in=1, delta_in=1, n_out=1,delta_out=1, dropnan=True):
