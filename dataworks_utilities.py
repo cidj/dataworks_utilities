@@ -856,35 +856,38 @@ def insert_with_labels(dat,dic,behind=True):
     return dat
 
 
-def save_and_replace_model(model, model_path,model_name):
+def save_replace_obj(obj, obj_path,obj_name,supersede=False):
     """
-    Save a scikit-learn model.
+    Save an object using joblib.dump.
 
     Parameters:
-        model: Model to save.
-        model_path: Directory.
-        model_name: Name of the model file.
+        obj: The object to save.
+        obj_path: Directory.
+        obj_name: Name of the object file.
 
     Returns:
         No return.
     """
 
-    model_path=model_path+'/'+model_name
+    obj_path=os.path.join(obj_path,obj_name)
 
-    if os.path.isfile(model_path):
-        try:
-            os.remove(model_path)
-            joblib.dump(model, model_path)
-            print("save_and_replace_model: "+os.path.basename(model_path)+" is replaced and saved!")
-        except OSError:
-            print("save_and_replace_model: Models couldn't be saved")
+    if os.path.isfile(obj_path):
+        if supersede:
+            try:
+                os.remove(obj_path)
+                joblib.dump(obj, obj_path)
+                print("save_replace_obj: "+os.path.basename(obj_path)+" is replaced and saved!")
+            except OSError:
+                print("save_replace_obj: Object couldn't be saved")
+        else:
+            raise OSError("save_replace_obj: There exists a object with the same name already.")
     else:
-        if os.path.isdir(os.path.dirname(model_path)):
+        if os.path.isdir(os.path.dirname(obj_path)):
             pass
         else:
-            os.mkdir(os.path.dirname(model_path))
-        joblib.dump(model, model_path)
-        print("save_and_replace_model: "+os.path.basename(model_path)+" is saved!")
+            os.mkdir(os.path.dirname(obj_path))
+        joblib.dump(obj, obj_path)
+        print("save_replace_obj: "+os.path.basename(obj_path)+" is saved!")
 
 
 def series_to_supervised(data, n_in=1, delta_in=1, n_out=1,delta_out=1, dropnan=True):
