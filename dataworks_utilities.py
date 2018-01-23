@@ -530,7 +530,7 @@ def csvs_scattered_to_grouped(path_dir, inlist, outlist, gcols,
         for j,ja in enumerate(aa_ed):
             wrtj=pd.merge(ja, fi, how='inner', on=gcols)
             append_to_csv(wrtj, os.path.join(path_dir,outlist[j]))
-        print('csvs_scattered_to_grouped: '+str(i)+' files finished.')
+        print('csvs_scattered_to_grouped: '+str(i)+' file(s) finished.')
 
     if catalog:
         for i, d in enumerate(aa_ed):
