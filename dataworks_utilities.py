@@ -1528,27 +1528,27 @@ def pd_parse_column(ser,parse_fun,pick_row=0,workers=6):
     all the result parsed from the column cells to a dataframe or a dictionary of dataframes.
     A dataframe in a row may contain duplicated columns' names and they are renamed with suffix '_0','_1',...
     Due to the dataframes in different rows may have different columns, the columns of result dataframes
-    are the uninon of them. 
-    
+    are the uninon of them.
+
     Parameters:
         ser: A series, it could be a column of some dataframe.
         parse_fun: A parse function which can parse the text in a cell and convert it to a dataframe.
         pick_row: The index of the row which belongs to the parse_fun created dataframe and is meant
             to be collected. When it is None, all rows will be collected to different dataframes.
         workers: The number of processes when applying the parse function parallelly.
-        
+
     Returns:
-        ddf: A dataframe or a dictionary of dataframes.        
+        ddf: A dataframe or a dictionary of dataframes.
     """
 
     print('pd_parse_column: Started.')
 
     mapto=apply_by_multiprocessing(ser,parse_fun,workers=workers)
     print('pd_parse_column: Applied ', str(parse_fun.__name__),'.')
-    
+
     class NotSame(Exception):
         def __init__(self):
-            Exception.__init__(self,"pd_parse_column: The contents in the rows are not the same.") 
+            Exception.__init__(self,"pd_parse_column: The contents in the rows are not the same.")
 
     row_lst=[]
     for i in range(0,len(mapto)):
@@ -1578,7 +1578,7 @@ def pd_parse_column(ser,parse_fun,pick_row=0,workers=6):
         ddf=dict(zip(row_lst,ddf_lst))
     else:
         ddf=_concat_lst(pick_row)
-    print('pd_parse_column: Connected the results.')
+    print('pd_parse_column: Connected the results. Finished.')
 
     return ddf
 
