@@ -340,8 +340,8 @@ def load_dataset(path_dir, filelist,numlist,dtype=None):
         actdat: A dataframe.
     """
 
-    actdat=pd.read_csv(os.path.join(path_dir,filelist[0]),dtype=dtype,nrows=numlist[0])
-    for i in range(1,len(filelist)):
+    actdat=pd.read_csv(os.path.join(path_dir,filelist[0]),dtype=dtype,nrows=0)
+    for i in range(0,len(filelist)):
         if numlist[i]>0:
             actdat=actdat.append(pd.read_csv(path_dir+filelist[i],dtype=dtype,nrows=numlist[i]))
         else:
