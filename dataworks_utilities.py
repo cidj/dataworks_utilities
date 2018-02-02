@@ -1093,7 +1093,7 @@ def apply_by_multiprocessing(df0,func,workers=4,**kwargs):
         determines the number of works in processing.
 
     Returns:
-        A dataframe.
+        A dataframe or series.
 
     Example:
         In: df = pd.DataFrame({'a':range(10), 'b':range(10,20)})
