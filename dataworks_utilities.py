@@ -1583,6 +1583,27 @@ def pd_parse_column(ser,parse_fun,pick_row=0,workers=6):
     return ddf
 
 
+def supervised_count_feature(s1,s0):
+    """
+    If you have two classes labeled 1 (abnormal) and 0 (normal), and one of their
+    features is some categories, you can use this function to find the ratios of
+    the instances' counts between the two classes, thus it shows some differences
+    of the feature.
+    """
+    a1=s1.groupby(s1).count()
+    a0=s0.groupby(s0).count()
+    b0,b1=a0.align(a1)
+    c1=b1.fillna(0)
+    c0=b0.fillna(0)
+    ss=(c1/(c0+c1))
+    return ss
+
+def supervised_add_count(ser,marker):
+    ss=supervised_count_feature(ser[marker==1],ser[marker==0])
+    new_ser=ser.map(ss)
+    return new_ser
+
+
 # Deprecated:
 
 
