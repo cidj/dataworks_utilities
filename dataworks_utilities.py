@@ -1586,9 +1586,20 @@ def pd_parse_column(ser,parse_fun,pick_row=0,workers=6):
 def supervised_count_feature(s1,s0):
     """
     If you have two classes labeled 1 (abnormal) and 0 (normal), and one of their
-    features is some categories, you can use this function to find the ratios of
-    the instances' counts between the two classes, thus it shows some differences
-    of the feature.
+    features is composed of some categories, you can use this function to find the
+    ratios of the instances' counts between the two classes, therefore it shows
+    some differences of the feature. However, due to the distribution here may not
+    reflect the real feature, this method some times will cause overfitting. So
+    becareful.
+
+    Parameters:
+        s1: A feature series contains some categories. All the items/rows here
+        are labeled 1.
+        s0: A feature series contains some categories. All the items/rows here
+        are labeled 0.
+
+    Returns:
+        ss: A series, which contains the percentages of the sample counts of 1 class.        
     """
     a1=s1.groupby(s1).count()
     a0=s0.groupby(s0).count()
