@@ -1620,10 +1620,11 @@ def supervised_add_count(ser,marker):
 
     Returns:
         new_ser: A series as a feature column.
+        ss: A series which is the distribution map.
     """
     ss=supervised_count_feature(ser[marker==1],ser[marker==0])
     new_ser=ser.map(ss)
-    return new_ser
+    return new_ser,ss
 
 
 # Deprecated:
