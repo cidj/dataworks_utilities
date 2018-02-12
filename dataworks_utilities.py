@@ -1599,7 +1599,7 @@ def supervised_count_feature(s1,s0):
         are labeled 0.
 
     Returns:
-        ss: A series, which contains the percentages of the sample counts of 1 class.        
+        ss: A series, which contains the percentages of the sample counts of 1 class.
     """
     a1=s1.groupby(s1).count()
     a0=s0.groupby(s0).count()
@@ -1610,6 +1610,17 @@ def supervised_count_feature(s1,s0):
     return ss
 
 def supervised_add_count(ser,marker):
+    """
+    In supervised feature processing, use supervised_count_feature function to get
+    a feature column as a series. This may cause overfitting.
+
+    Parameters:
+        ser: The series that to be processed.
+        marker: A series of markers where there are 1s and 0s.
+
+    Returns:
+        new_ser: A series as a feature column.
+    """
     ss=supervised_count_feature(ser[marker==1],ser[marker==0])
     new_ser=ser.map(ss)
     return new_ser
