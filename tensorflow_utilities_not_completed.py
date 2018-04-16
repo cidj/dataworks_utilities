@@ -5,10 +5,8 @@ Created on Wed Nov  1 13:57:44 2017
 
 @author: Tao Su
 """
-import numpy as np
+
 import tensorflow as tf
-import matplotlib.pyplot as plt
-import networkx as nx
 
 
 def batch_norm(x, is_training, axes, decay=0.99, epsilon=1e-3,scope='bn', reuse=None):
