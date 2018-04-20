@@ -1089,7 +1089,7 @@ def apply_by_multiprocessing(df0,func,workers=4,**kwargs):
     Parameters:
         df: A dataframe.
         func: The function to apply.
-        **kwargs: other aguments, like axis. It also should contain workers which
+        **kwargs: Other aguments, like axis. It also should contain workers which
         determines the number of works in processing.
 
     Returns:
@@ -1181,7 +1181,7 @@ def mgrid_box(X,axis=0,linj=200j,marg_rate=0.1):
 
     Parameters:
         X: An 2-D array, consists of vectors.
-        axis: if 0, the shape of every vector in X is (-1,1), otherwise (1,-1).
+        axis: If 0, the shape of every vector in X is (-1,1), otherwise (1,-1).
         linj: If it is a complex number, it is the number of points to create
         between the maximum and minimum values. Or if it is a real number, it is
         the step length between them.
@@ -1235,7 +1235,7 @@ def corresponding_ravel(X,axis=0):
 
     Parameters:
         X: The input array.
-        axis: if it is 0, the output contains columns, otherwise rows.
+        axis: If it is 0, the output contains columns, otherwise rows.
 
     Returns:
         t1: A 2-D array.
@@ -1263,6 +1263,40 @@ def corresponding_ravel(X,axis=0):
         t1=t1.T
 
     return t1
+
+
+def color_marked_plot(data,marker_column,plot_fun):
+    """
+    Plot scatter plot (use plot or scatter) where different classes/clusters 
+    have different colors/markers.
+    
+    Parameters:
+        data: Data,usually two columns for x and y coordinates.
+        marker_column: A column used to mark different classes/clusters.
+        plot_fun: The plot function, usually scatter, or plot.
+        
+    Returns:
+        color_dict: The color-class/clusters dictionary.
+        marker_dict: The marker-class/clusters dictionary.
+    """
+
+    color_list=['C0', 'C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'C8', 'C9']
+    marker_list=['o', 'X', '8', 's', 'p', 'h', 'H', 'D', 'd', 'P']
+    
+    kinds=pd.Series(marker_column).drop_duplicates().sort_values().values
+    
+    color_dict=dict(zip(kinds,color_list[0:len(kinds)]))
+    marker_dict=dict(zip(kinds,marker_list[0:len(kinds)]))
+    
+    data_marker=pd.DataFrame(data).assign(marker=marker_column)    
+    data_marked=[data_marker[data_marker['marker']==kind] for kind in kinds]
+       
+    for i in range(0,len(data_marked)):
+        plot_fun(data_marked[i].iloc[:,0],data_marked[i].iloc[:,1],
+                 color=color_dict[kinds[i]],
+                 marker=marker_dict[kinds[i]])
+        
+    return color_dict,marker_dict
 
 
 def plot_region_prediction(X,model,linj=200j,marg_rate=0.1,centroids=None):
