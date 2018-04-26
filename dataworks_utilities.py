@@ -1265,7 +1265,7 @@ def corresponding_ravel(X,axis=0):
     return t1
 
 
-def color_marked_plot(data,marker_column,plot_fun):
+def color_marked_scatter_plot(data,marker_column,labels,dim=2):
     """
     Plot scatter plot (use plot or scatter) where different classes/clusters 
     have different colors/markers.
@@ -1290,13 +1290,30 @@ def color_marked_plot(data,marker_column,plot_fun):
     
     data_marker=pd.DataFrame(data).assign(marker=marker_column)    
     data_marked=[data_marker[data_marker['marker']==kind] for kind in kinds]
-       
-    for i in range(0,len(data_marked)):
-        plot_fun(data_marked[i].iloc[:,0],data_marked[i].iloc[:,1],
-                 color=color_dict[kinds[i]],
-                 marker=marker_dict[kinds[i]])
-        
-    return color_dict,marker_dict
+    
+    fig = plt.figure()
+
+    if dim==2:
+        for i in range(0,len(data_marked)):
+            plt.scatter(data_marked[i].iloc[:,0],data_marked[i].iloc[:,1],
+                     color=color_dict[kinds[i]],
+                     marker=marker_dict[kinds[i]])
+        plt.xlabel(labels[0])
+        plt.ylabel(labels[1])
+    elif dim==3:
+        ax = fig.add_subplot(111, projection='3d')
+        for i in range(0,len(data_marked)):
+            ax.scatter(data_marked[i].iloc[:,0],data_marked[i].iloc[:,1],
+                        data_marked[i].iloc[:,2],
+                        color=color_dict[kinds[i]],
+                        marker=marker_dict[kinds[i]])
+        ax.set_xlabel(labels[0])
+        ax.set_ylabel(labels[1])
+        ax.set_zlabel(labels[2])
+    else:
+        print('Not implemented.')
+    plt.show()   
+    return fig,color_dict,marker_dict
 
 
 def plot_region_prediction(X,model,linj=200j,marg_rate=0.1,centroids=None):
