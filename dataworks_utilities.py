@@ -21,6 +21,7 @@ from sklearn.externals import joblib
 from scipy.optimize import curve_fit
 import multiprocessing
 from collections import defaultdict
+from mpl_toolkits.mplot3d import Axes3D
 
 
 def drop_columns(cols,actdata,inplace=False):
@@ -1267,14 +1268,14 @@ def corresponding_ravel(X,axis=0):
 
 def color_marked_scatter_plot(data,marker_column,labels,dim=2):
     """
-    Plot scatter plot (use plot or scatter) where different classes/clusters 
+    Plot scatter plot (use plot or scatter) where different classes/clusters
     have different colors/markers.
-    
+
     Parameters:
         data: Data,usually two columns for x and y coordinates.
         marker_column: A column used to mark different classes/clusters.
         plot_fun: The plot function, usually scatter, or plot.
-        
+
     Returns:
         color_dict: The color-class/clusters dictionary.
         marker_dict: The marker-class/clusters dictionary.
@@ -1282,15 +1283,15 @@ def color_marked_scatter_plot(data,marker_column,labels,dim=2):
 
     color_list=['C0', 'C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'C8', 'C9']
     marker_list=['o', 'X', '8', 's', 'p', 'h', 'H', 'D', 'd', 'P']
-    
+
     kinds=pd.Series(marker_column).drop_duplicates().sort_values().values
-    
+
     color_dict=dict(zip(kinds,color_list[0:len(kinds)]))
     marker_dict=dict(zip(kinds,marker_list[0:len(kinds)]))
-    
-    data_marker=pd.DataFrame(data).assign(marker=marker_column)    
+
+    data_marker=pd.DataFrame(data).assign(marker=marker_column)
     data_marked=[data_marker[data_marker['marker']==kind] for kind in kinds]
-    
+
     fig = plt.figure()
 
     if dim==2:
@@ -1312,7 +1313,7 @@ def color_marked_scatter_plot(data,marker_column,labels,dim=2):
         ax.set_zlabel(labels[2])
     else:
         print('Not implemented.')
-    plt.show()   
+    plt.show()
     return fig,color_dict,marker_dict
 
 
