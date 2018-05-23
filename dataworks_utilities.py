@@ -1656,10 +1656,11 @@ def supervised_count_feature(s1,s0):
     a1=s1.groupby(s1).count()
     a0=s0.groupby(s0).count()
     b0,b1=a0.align(a1)
-    c1=b1.fillna(0)
-    c0=b0.fillna(0)
-    ss=(c1/(c0+c1))
-    return ss
+    c1=b1.fillna(0).rename('c1')
+    c0=b0.fillna(0).rename('c0')
+    ss=(c1/(c0+c1)).rename('1_over_all')
+    tt=pd.concat([ss,c1,c0],axis=1)
+    return tt
 
 def supervised_add_count(ser,marker):
     """
