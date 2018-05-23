@@ -1658,7 +1658,7 @@ def supervised_count_feature(s1,s0):
     b0,b1=a0.align(a1)
     c1=b1.fillna(0).rename('c1')
     c0=b0.fillna(0).rename('c0')
-    ss=(c1/(c0+c1)).rename('1_over_all')
+    ss=((c1-c0)/(c1+c0)).rename('diff_percentage')
     tt=pd.concat([ss,c1,c0],axis=1)
     return tt
 
@@ -1675,7 +1675,7 @@ def supervised_add_count(ser,marker):
         new_ser: A series as a feature column.
         ss: A series which is the distribution map.
     """
-    ss=supervised_count_feature(ser[marker==1],ser[marker==0])
+    ss=supervised_count_feature(ser[marker==1],ser[marker==0])['diff_percentage']
     new_ser=ser.map(ss)
     return new_ser,ss
 
