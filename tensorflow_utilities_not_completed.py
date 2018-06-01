@@ -11,10 +11,11 @@ import tensorflow as tf
 
 
 #Input functions generators
-_DEFAULT_DTYPE_DICT={np.dtype('int64'):[0],np.dtype('float64'):[0.0], np.dtype('O'):['']}
 
 def csv_input_fn(data_file,label,num_epochs, shuffle, batch_size,header='infer',names=None):
     """ Generate a input function from a csv file."""
+    
+    _DEFAULT_DTYPE_DICT={np.dtype('int64'):[0],np.dtype('float64'):[0.0], np.dtype('O'):['']}
     
     dfdata=pd.read_csv(data_file,header=header,names=names)
     
@@ -69,6 +70,38 @@ def df_input_fn(dfdata,label,num_epochs, shuffle, batch_size):
         return iterator.get_next()
     
     return input_fn
+
+
+#Write to and read from tfrecords file.
+    
+def df_to_tfrecord(df,names_file, tfrecord_file):
+    """Write a pandas DataFrame to a tfrecords file and a csv for column names"""
+    
+    def _int64_feature(value):
+        return tf.train.Feature(int64_list=tf.train.Int64List(value=[value]))
+    def _float_feature(value):
+        return tf.train.Feature(float_list=tf.train.FloatList(value=[value]))    
+    def _string_feature(value):
+        return tf.train.Feature(bytes_list=tf.train.BytesList(value=[value.encode('utf-8')]))    
+    def _bytes_feature(value):
+        return tf.train.Feature(bytes_list=tf.train.BytesList(value=[value]))
+    
+    _DTYPE_FUNCTION_DICT={np.dtype('int64'):_int64_feature,
+                          np.dtype('float64'):_float_feature,
+                          np.dtype('O'):_string_feature}
+    
+    f={i:_DTYPE_FUNCTION_DICT[df.dtypes[i]] for i in df.columns}
+    df.dtypes.to_csv(names_file)
+    
+    with tf.python_io.TFRecordWriter(tfrecord_file) as writer:
+        for i in range(0,len(df)):
+            x=df.iloc[i] 
+            example = tf.train.Example(features=tf.train.Features(feature={
+                    i:f[i](x[i]) for i in df.columns}))
+            writer.write(example.SerializeToString())
+            
+    
+
 
 
 
