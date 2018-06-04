@@ -15,7 +15,7 @@ import tensorflow as tf
 def csv_input_fn(data_file,label,num_epochs, shuffle, batch_size,header='infer',names=None):
     """ Generate a input function from a csv file."""
     
-    _DEFAULT_DTYPE_DICT={np.dtype('int64'):[0],np.dtype('float64'):[0.0], np.dtype('O'):['']}
+    _DEFAULT_DTYPE_DICT={np.dtype('int64'):[0],np.dtype('float64'):[0.0], np.dtype('O'):[""]}
     
     dfdata=pd.read_csv(data_file,header=header,names=names)
     
@@ -75,7 +75,8 @@ def df_input_fn(dfdata,label,num_epochs, shuffle, batch_size):
 #Write to and read from tfrecords file.
     
 def df_to_tfrecord(df,names_file, tfrecord_file):
-    """Write a pandas DataFrame to a tfrecords file and a csv for column names"""
+    """Write a pandas DataFrame to a tfrecords file and a csv for column names. 
+    Here strings are encoded using utf-8"""
     
     def _int64_feature(value):
         return tf.train.Feature(int64_list=tf.train.Int64List(value=[value]))
@@ -123,6 +124,24 @@ def get_tfrecord_parse_function(names_file,use_default_value=False):
   
     return _parse_function    
 
+
+def read_tfdataset_to_df(dataset, read_len, start_ind=0):
+    """Read tensorflow dataset with specific length and start index and convert
+    it to pandas DataFrame.
+    """
+    iter1=dataset.make_one_shot_iterator()
+    datf=pd.DataFrame()
+    sess=tf.Session()
+    end_ind=start_ind+read_len
+    for i in range(0,end_ind):
+        try:
+            rec=sess.run(iter1.get_next())
+            if i in range(start_ind,end_ind):
+                datf=datf.append(pd.DataFrame(rec,index=[i]))
+        except tf.errors.OutOfRangeError:
+            print("End of dataset: ", i, " records in total." )   
+    sess.close() 
+    return datf
 
 
 
