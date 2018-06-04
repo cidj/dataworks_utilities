@@ -139,7 +139,7 @@ def read_tfdataset_to_df(dataset, read_len, start_ind=0):
             if i in range(start_ind,end_ind):
                 datf=datf.append(pd.DataFrame(rec,index=[i]))
         except tf.errors.OutOfRangeError:
-            print("End of dataset: ", i, " records in total." )   
+            print("Dataset out of range: ", i, " records in total.")   
     sess.close() 
     return datf
 
