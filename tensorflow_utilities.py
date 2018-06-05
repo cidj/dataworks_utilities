@@ -145,7 +145,49 @@ def read_tfdataset_to_df(dataset, read_len, start_ind=0):
 
 
 
+#some pattern.
 
+def model_fn(model, features, labels, mode, params):
+  """The model_fn argument for creating an Estimator."""
+
+  if mode == tf.estimator.ModeKeys.PREDICT:
+    logits = model(..., training=False)
+    predictions = {
+        'classes': tf.argmax(logits, axis=1),
+        'probabilities': tf.nn.softmax(logits),
+    }
+    return tf.estimator.EstimatorSpec(
+        mode=tf.estimator.ModeKeys.PREDICT,
+        predictions=predictions,
+        export_outputs={
+            'classify': tf.estimator.export.PredictOutput(predictions)
+        })
+    
+  if mode == tf.estimator.ModeKeys.TRAIN:
+    optimizer = ...
+    logits = model(..., training=True)
+    loss = ...
+    accuracy = tf.metrics.accuracy(
+            labels=labels,
+            predictions=tf.argmax(logits, axis=1))
+    tf.summary.scalar('train_accuracy', accuracy[1])
+    return tf.estimator.EstimatorSpec(
+        mode=tf.estimator.ModeKeys.TRAIN,
+        loss=loss,
+        train_op=optimizer.minimize(loss, tf.train.get_or_create_global_step()))
+    
+  if mode == tf.estimator.ModeKeys.EVAL:
+    logits = model(..., training=False)
+    loss = ...
+    return tf.estimator.EstimatorSpec(
+        mode=tf.estimator.ModeKeys.EVAL,
+        loss=loss,
+        eval_metric_ops={
+            'accuracy':tf.metrics.accuracy(
+                    labels=labels, 
+                    predictions=tf.argmax(logits, axis=1)),
+        })
+            
 
 #Optimization trick snippets.
 def batch_norm(x, is_training, axes, decay=0.99, epsilon=1e-3,scope='bn', reuse=None):
