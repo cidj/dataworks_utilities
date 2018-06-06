@@ -52,15 +52,15 @@ def csv_input_fn(data_file,label,num_epochs, shuffle, batch_size,header='infer',
     return input_fn
 
 
-def df_input_fn(dfdata,label,num_epochs, shuffle, batch_size):
+def df_input_fn(features,label,num_epochs, shuffle, batch_size):
     """ Generate a input function from a pandas DataFrame."""
             
     def input_fn():
     
-        dataset = tf.data.Dataset.from_tensor_slices((dict(dfdata),label))
+        dataset = tf.data.Dataset.from_tensor_slices((dict(features),label))
     
         if shuffle:
-            dataset = dataset.shuffle(buffer_size=len(dfdata))
+            dataset = dataset.shuffle(buffer_size=len(features))
     
         dataset = dataset.repeat(num_epochs)
         dataset = dataset.batch(batch_size)
