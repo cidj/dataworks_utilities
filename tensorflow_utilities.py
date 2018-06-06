@@ -148,45 +148,46 @@ def read_tfdataset_to_df(dataset, read_len, start_ind=0):
 #some pattern.
 
 def model_fn(model, features, labels, mode, params):
-  """The model_fn argument for creating an Estimator."""
+    """The model_fn argument for creating an Estimator."""
 
-  if mode == tf.estimator.ModeKeys.PREDICT:
-    logits = model(..., training=False)
-    predictions = {
-        'classes': tf.argmax(logits, axis=1),
-        'probabilities': tf.nn.softmax(logits),
-    }
-    return tf.estimator.EstimatorSpec(
-        mode=tf.estimator.ModeKeys.PREDICT,
-        predictions=predictions,
-        export_outputs={
-            'classify': tf.estimator.export.PredictOutput(predictions)
-        })
-    
-  if mode == tf.estimator.ModeKeys.TRAIN:
-    optimizer = ...
-    logits = model(..., training=True)
-    loss = ...
-    accuracy = tf.metrics.accuracy(
-            labels=labels,
-            predictions=tf.argmax(logits, axis=1))
-    tf.summary.scalar('train_accuracy', accuracy[1])
-    return tf.estimator.EstimatorSpec(
-        mode=tf.estimator.ModeKeys.TRAIN,
-        loss=loss,
-        train_op=optimizer.minimize(loss, tf.train.get_or_create_global_step()))
-    
-  if mode == tf.estimator.ModeKeys.EVAL:
-    logits = model(..., training=False)
-    loss = ...
-    return tf.estimator.EstimatorSpec(
-        mode=tf.estimator.ModeKeys.EVAL,
-        loss=loss,
-        eval_metric_ops={
-            'accuracy':tf.metrics.accuracy(
-                    labels=labels, 
-                    predictions=tf.argmax(logits, axis=1)),
-        })
+    if mode == tf.estimator.ModeKeys.TRAIN:
+        logits = model(..., training=True)
+        inferences=tf.argmax(logits, axis=1)
+        loss = ...
+        accuracy = tf.metrics.accuracy(
+                labels=labels,
+                predictions=inferences)
+        tf.summary.scalar('train_accuracy', accuracy[1])
+        optimizer = ...
+        return tf.estimator.EstimatorSpec(
+                mode=tf.estimator.ModeKeys.TRAIN,
+                loss=loss,
+                train_op=optimizer.minimize(loss,
+                                            tf.train.get_or_create_global_step()))
+    else:
+        logits = model(..., training=False)
+        inferences=tf.argmax(logits, axis=1)
+        if mode == tf.estimator.ModeKeys.EVAL:            
+            loss = ...
+            accuracy = tf.metrics.accuracy(
+                    labels=labels,
+                    predictions=inferences)
+            return tf.estimator.EstimatorSpec(
+                    mode=tf.estimator.ModeKeys.EVAL,
+                    loss=loss,
+                    eval_metric_ops={
+                            'accuracy':accuracy})
+        elif mode == tf.estimator.ModeKeys.PREDICT:
+            predictions = {
+                    'classes': inferences,
+                    'probabilities': tf.nn.softmax(logits),}
+            return tf.estimator.EstimatorSpec(
+                    mode=tf.estimator.ModeKeys.PREDICT,
+                    predictions=predictions,
+                    export_outputs={
+                            'classify': tf.estimator.export.PredictOutput(predictions)})
+        else:
+            print("Mode doesn't exist: (TRAIN/EVAL/PREDICT).")
             
 
 #Optimization trick snippets.
