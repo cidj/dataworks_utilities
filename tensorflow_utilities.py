@@ -187,7 +187,7 @@ def model_fn(model, features, labels, mode, params):
                     export_outputs={
                             'classify': tf.estimator.export.PredictOutput(predictions)})
         else:
-            print("Mode doesn't exist: (TRAIN/EVAL/PREDICT).")
+            raise ValueError("Mode doesn't exist: (TRAIN/EVAL/PREDICT).")
             
 
 #Optimization trick snippets.
