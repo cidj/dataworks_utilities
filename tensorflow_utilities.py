@@ -147,8 +147,12 @@ def read_tfdataset_to_df(dataset, read_len, start_ind=0):
 
 #some pattern.
 
-def model_fn(model, features, labels, mode, params):
+def model_fn(features, labels, mode, params):
     """The model_fn argument for creating an Estimator."""
+    
+    input_layer = tf.feature_column.input_layer(features, params['feature_columns'])
+
+    ...#creat model use input layer.
 
     if mode == tf.estimator.ModeKeys.TRAIN:
         logits = model(..., training=True)
@@ -176,7 +180,7 @@ def model_fn(model, features, labels, mode, params):
                     mode=tf.estimator.ModeKeys.EVAL,
                     loss=loss,
                     eval_metric_ops={
-                            'accuracy':accuracy})
+                            'eval_accuracy':accuracy})
         elif mode == tf.estimator.ModeKeys.PREDICT:
             predictions = {
                     'classes': inferences,
@@ -186,9 +190,49 @@ def model_fn(model, features, labels, mode, params):
                     predictions=predictions,
                     export_outputs={
                             'classify': tf.estimator.export.PredictOutput(predictions)})
-        else:
-            raise ValueError("Mode doesn't exist: (TRAIN/EVAL/PREDICT).")
+#        else:
+#            raise ValueError("Mode doesn't exist: (TRAIN/EVAL/PREDICT).")
             
+
+# A Framework for tensorflow estimator.
+
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
+
+import argparse
+import sys
+import tensorflow as tf
+        
+def main(argv):
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--train_steps', default=1000, type=int,
+                        help='number of training steps')
+    args = parser.parse_args(argv[1:])    
+
+    classifier = tf.estimator.Estimator(
+        model_fn=...,
+        params={
+            'feature_columns': ...,
+            'n_classes': ...,
+        },
+        model_dir=...)
+
+    classifier.train(
+        input_fn=...,
+        steps=args.train_steps)
+
+    eval_result = classifier.evaluate(
+        input_fn=...)
+    )
+
+if __name__ == '__main__':
+    tf.logging.set_verbosity(tf.logging....)
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--batch_size', default=100, type=int, help='batch size')
+    FLAGS, unparsed = parser.parse_known_args()
+    tf.app.run(main=main, argv=[sys.argv[0]] + unparsed)
+    
 
 #Optimization trick snippets.
 def batch_norm(x, is_training, axes, decay=0.99, epsilon=1e-3,scope='bn', reuse=None):
