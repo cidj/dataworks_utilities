@@ -211,23 +211,25 @@ def main(argv):
     args = parser.parse_args(argv[1:])    
 
     classifier = tf.estimator.Estimator(
-        model_fn=...,
-        params={
-            'feature_columns': ...,
-            'n_classes': ...,
-        },
-        model_dir=...)
+            model_fn=...,
+            params={
+                    'feature_columns': ...,
+                    'n_classes': ...,
+                    },
+            model_dir=...)
 
     classifier.train(
-        input_fn=...,
-        steps=args.train_steps)
+            input_fn=...,
+            steps=args.train_steps)
 
     eval_result = classifier.evaluate(
-        input_fn=...)
-    )
+            input_fn=...)
+    
+    predictions = classifier.predict(
+            input_fn=...)
 
 if __name__ == '__main__':
-    tf.logging.set_verbosity(tf.logging....)
+    tf.logging.set_verbosity(tf.logging.ERROR)
     parser = argparse.ArgumentParser()
     parser.add_argument('--batch_size', default=100, type=int, help='batch size')
     FLAGS, unparsed = parser.parse_known_args()
