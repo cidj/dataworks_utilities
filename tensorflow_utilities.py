@@ -147,7 +147,7 @@ def read_tfdataset_to_df(dataset, read_len, start_ind=0):
 
 #some pattern.
 
-def model_fn(features, labels, mode, params):
+def model_fn(model,features, labels, mode, params):
     """The model_fn argument for creating an Estimator."""
     
     input_layer = tf.feature_column.input_layer(features, params['feature_columns'])

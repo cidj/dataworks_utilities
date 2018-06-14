@@ -1585,8 +1585,7 @@ def pd_parse_column(ser,parse_fun,pick_row=0,workers=6):
     Parameters:
         ser: A series, it could be a column of some dataframe.
         parse_fun: A parse function which can parse the text in a cell and convert it to a dataframe.
-        pick_row: The index of the row which belongs to the parse_fun created dataframe and is meant
-            to be collected. When it is None, all rows will be collected to different dataframes.
+        pick_row: The index of the row which belongs to the parse_fun created dataframe and is meant to be collected. When it is None, all rows will be collected to different dataframes.
         workers: The number of processes when applying the parse function parallelly.
 
     Returns:
