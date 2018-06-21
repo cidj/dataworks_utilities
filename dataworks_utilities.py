@@ -1598,8 +1598,8 @@ def pd_parse_column(ser,parse_fun,pick_row=0,workers=6):
     print('pd_parse_column: Applied ', str(parse_fun.__name__),'.')
 
     class NotSame(Exception):
-        def __init__(self):
-            Exception.__init__(self,"pd_parse_column: The contents in the rows are not the same.")
+        def __init__(self,i):
+            Exception.__init__(self,"pd_parse_column: The contents in the row-"+str(i)+" are not the same.")
 
     row_lst=[]
     for i in range(0,len(mapto)):
@@ -1607,7 +1607,7 @@ def pd_parse_column(ser,parse_fun,pick_row=0,workers=6):
         if not mapto.iloc[i].equals(pd.DataFrame()):
             if row_lst:
                 if row_lst!=mapto.iloc[i].index.tolist():
-                    raise NotSame()
+                    raise NotSame(i)
             else:
                 row_lst=mapto.iloc[i].index.tolist()
 
