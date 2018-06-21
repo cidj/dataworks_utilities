@@ -1604,7 +1604,8 @@ def pd_parse_column(ser,parse_fun,pick_row=0,workers=6):
     row_lst=[]
     for i in range(0,len(mapto)):
         mapto.iloc[i].columns=strSeq_uniquify(mapto.iloc[i].columns)
-        if not mapto.iloc[i].equals(pd.DataFrame()):
+        # if not mapto.iloc[i].equals(pd.DataFrame()):
+        if not mapto.iloc[i].empty:
             if row_lst:
                 if row_lst!=mapto.iloc[i].index.tolist():
                     raise NotSame(i)
