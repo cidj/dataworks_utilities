@@ -237,7 +237,7 @@ if __name__ == '__main__':
     
 
 
-def dense_to_sparse(dense_tensor, out_type):
+def dense_to_sparse(dense_tensor, out_type=tf.int64):
     indices = tf.where(tf.not_equal(dense_tensor,
                                     tf.constant(0, dense_tensor.dtype)))
     values = tf.gather_nd(dense_tensor, indices)
