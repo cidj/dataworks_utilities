@@ -237,13 +237,12 @@ if __name__ == '__main__':
     
 
 
-def dense_to_sparse(dense_tensor):
+def dense_to_sparse(dense_tensor, out_type):
     indices = tf.where(tf.not_equal(dense_tensor,
                                     tf.constant(0, dense_tensor.dtype)))
     values = tf.gather_nd(dense_tensor, indices)
-    shape = tf.shape(dense_tensor)
+    shape = tf.shape(dense_tensor, out_type=out_type)
     return tf.SparseTensor(indices, values, shape)
-
 
 
 
