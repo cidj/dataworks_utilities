@@ -23,9 +23,9 @@ def csv_input_fn(data_file,label,num_epochs, shuffle, batch_size,header='infer',
     _CSV_COLUMN_DEFAULTS=dfdata.dtypes.map(_DEFAULT_DTYPE_DICT).tolist()
         
     if names:
-        skip=1
-    else:
         skip=0
+    else:
+        skip=1
    
     def parse_csv(value,label_col):
         columns = tf.decode_csv(value, record_defaults=_CSV_COLUMN_DEFAULTS)
