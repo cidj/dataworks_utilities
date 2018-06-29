@@ -15,7 +15,9 @@ import tensorflow as tf
 def csv_input_fn(data_file,label,num_epochs, shuffle, batch_size,header='infer',names=None):
     """ Generate a input function from a csv file."""
     
-    _DEFAULT_DTYPE_DICT={np.dtype('int64'):[0],np.dtype('float64'):[0.0], np.dtype('O'):[""]}
+    _DEFAULT_DTYPE_DICT={np.dtype('int64'):tf.constant([0], dtype=tf.int64),
+                 np.dtype('float64'):tf.constant([0.0], dtype=tf.float64),
+                 np.dtype('O'):tf.constant([''], dtype=tf.string)}
     
     dfdata=pd.read_csv(data_file,header=header,names=names)
     
