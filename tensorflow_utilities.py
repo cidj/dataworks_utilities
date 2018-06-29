@@ -12,14 +12,14 @@ import tensorflow as tf
 
 #Input functions generators
 
-def csv_input_fn(data_file,label,num_epochs, shuffle, batch_size,header='infer',names=None):
+def csv_input_fn(data_file,features,label, batch_size,header='infer',names=None):
     """ Generate a input function from a csv file."""
-    
+       
     _DEFAULT_DTYPE_DICT={np.dtype('int64'):tf.constant([0], dtype=tf.int64),
-                 np.dtype('float64'):tf.constant([0.0], dtype=tf.float64),
-                 np.dtype('O'):tf.constant([''], dtype=tf.string)}
+                     np.dtype('float64'):tf.constant([0.0], dtype=tf.float64),
+                     np.dtype('O'):tf.constant([''], dtype=tf.string)}
     
-    dfdata=pd.read_csv(data_file,header=header,names=names)
+    dfdata=pd.read_csv(data_file,header=header,names=names,nrows=1)
     
     _CSV_COLUMNS = dfdata.columns.tolist()
     _CSV_COLUMN_DEFAULTS=dfdata.dtypes.map(_DEFAULT_DTYPE_DICT).tolist()
@@ -29,22 +29,19 @@ def csv_input_fn(data_file,label,num_epochs, shuffle, batch_size,header='infer',
     else:
         skip=1
    
-    def parse_csv(value,label_col):
+    def parse_csv(value,feature_col,label_col):
         columns = tf.decode_csv(value, record_defaults=_CSV_COLUMN_DEFAULTS)
-        features = dict(zip(_CSV_COLUMNS, columns))
-        labels = features.pop(label_col)
+        column_dict = dict(zip(_CSV_COLUMNS, columns))
+        features={k:column_dict[k] for k in feature_col}
+        labels = column_dict[label_col]
         return features, labels
         
     def input_fn():
     
         dataset = tf.data.TextLineDataset(data_file).skip(skip)
     
-        if shuffle:
-            dataset = dataset.shuffle(buffer_size=len(dfdata))
+        dataset = dataset.map(lambda x: parse_csv(x,features,label),num_parallel_calls=5)
     
-        dataset = dataset.map(lambda x: parse_csv(x,label),num_parallel_calls=5)
-    
-        dataset = dataset.repeat(num_epochs)
         dataset = dataset.batch(batch_size)
         
         iterator = dataset.make_one_shot_iterator()
@@ -52,6 +49,7 @@ def csv_input_fn(data_file,label,num_epochs, shuffle, batch_size,header='infer',
         return iterator.get_next()
     
     return input_fn
+
 
 
 def df_input_fn(features,label,num_epochs, shuffle, batch_size):
