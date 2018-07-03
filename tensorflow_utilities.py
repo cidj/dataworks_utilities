@@ -33,8 +33,11 @@ def csv_input_fn(data_file,features,label, batch_size,header='infer',names=None)
         columns = tf.decode_csv(value, record_defaults=_CSV_COLUMN_DEFAULTS)
         column_dict = dict(zip(_CSV_COLUMNS, columns))
         features={k:column_dict[k] for k in feature_col}
-        labels = column_dict[label_col]
-        return features, labels
+        if label_col:
+            labels = column_dict[label_col]
+            return features, labels
+        else:
+            return features
         
     def input_fn():
     
