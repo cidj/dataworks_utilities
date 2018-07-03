@@ -54,7 +54,6 @@ def csv_input_fn(data_file,features,label, batch_size,header='infer',names=None)
     return input_fn
 
 
-
 def df_input_fn(features,label,num_epochs, shuffle, batch_size):
     """ Generate a input function from a pandas DataFrame."""
             
@@ -75,8 +74,7 @@ def df_input_fn(features,label,num_epochs, shuffle, batch_size):
     return input_fn
 
 
-#Write to and read from tfrecords file.
-    
+#Write to and read from tfrecords file.    
 def df_to_tfrecord(df,names_file, tfrecord_file):
     """Write a pandas DataFrame to a tfrecords file and a csv for column names. 
     Here strings are encoded using utf-8"""
@@ -103,10 +101,10 @@ def df_to_tfrecord(df,names_file, tfrecord_file):
             example = tf.train.Example(features=tf.train.Features(feature={
                     i:f[i](x[i]) for i in df.columns}))
             writer.write(example.SerializeToString())
+
             
 def df_to_examples(df):
-    """Convert pandas dataframe to . 
-    Here strings are encoded using utf-8"""
+    """Convert pandas dataframe to. Here strings are encoded using utf-8"""
     
     def _int64_feature(value):
         return tf.train.Feature(int64_list=tf.train.Int64List(value=[value]))
