@@ -4,6 +4,7 @@
 Created on Wed Nov  1 13:57:44 2017
 
 @author: Tao Su
+Email: uku.ele@gmail.com
 """
 import numpy as np
 import pandas as pd
@@ -43,12 +44,10 @@ def csv_input_fn(data_file,features,label, batch_size,header='infer',names=None)
     
         dataset = tf.data.TextLineDataset(data_file).skip(skip)
     
-        dataset = dataset.map(lambda x: parse_csv(x,features,label),num_parallel_calls=5)
-    
+        dataset = dataset.map(lambda x: parse_csv(x,features,label),num_parallel_calls=5)    
         dataset = dataset.batch(batch_size)
         
-        iterator = dataset.make_one_shot_iterator()
-      
+        iterator = dataset.make_one_shot_iterator()      
         return iterator.get_next()
     
     return input_fn
@@ -101,33 +100,6 @@ def df_to_tfrecord(df,names_file, tfrecord_file):
             example = tf.train.Example(features=tf.train.Features(feature={
                     i:f[i](x[i]) for i in df.columns}))
             writer.write(example.SerializeToString())
-
-            
-def df_to_examples(df):
-    """Convert pandas dataframe to. Here strings are encoded using utf-8"""
-    
-    def _int64_feature(value):
-        return tf.train.Feature(int64_list=tf.train.Int64List(value=[value]))
-    def _float_feature(value):
-        return tf.train.Feature(float_list=tf.train.FloatList(value=[value]))    
-    def _string_feature(value):
-        return tf.train.Feature(bytes_list=tf.train.BytesList(value=[value.encode('utf-8')]))    
-#    def _bytes_feature(value):
-#        return tf.train.Feature(bytes_list=tf.train.BytesList(value=[value]))
-    
-    _DTYPE_FUNCTION_DICT={np.dtype('int64'):_int64_feature,
-                          np.dtype('float64'):_float_feature,
-                          np.dtype('O'):_string_feature}
-    
-    f={i:_DTYPE_FUNCTION_DICT[df.dtypes[i]] for i in df.columns}
-    
-    examples = []
-    for i in range(0,len(df)):
-        x=df.iloc[i] 
-        example = tf.train.Example(features=tf.train.Features(feature={
-                i:f[i](x[i]) for i in df.columns}))
-        examples.append(example.SerializeToString())
-    return examples
             
 
 def get_tfrecord_parse_function(names_file,use_default_value=False):
@@ -170,6 +142,33 @@ def read_tfdataset_to_df(dataset, read_len, start_ind=0):
             print("Dataset out of range: ", i, " records in total.")   
     sess.close() 
     return datf
+
+
+def df_to_examples(df):
+    """Convert pandas dataframe to. Here strings are encoded using utf-8"""
+    
+    def _int64_feature(value):
+        return tf.train.Feature(int64_list=tf.train.Int64List(value=[value]))
+    def _float_feature(value):
+        return tf.train.Feature(float_list=tf.train.FloatList(value=[value]))    
+    def _string_feature(value):
+        return tf.train.Feature(bytes_list=tf.train.BytesList(value=[value.encode('utf-8')]))    
+#    def _bytes_feature(value):
+#        return tf.train.Feature(bytes_list=tf.train.BytesList(value=[value]))
+    
+    _DTYPE_FUNCTION_DICT={np.dtype('int64'):_int64_feature,
+                          np.dtype('float64'):_float_feature,
+                          np.dtype('O'):_string_feature}
+    
+    f={i:_DTYPE_FUNCTION_DICT[df.dtypes[i]] for i in df.columns}
+    
+    examples = []
+    for i in range(0,len(df)):
+        x=df.iloc[i] 
+        example = tf.train.Example(features=tf.train.Features(feature={
+                i:f[i](x[i]) for i in df.columns}))
+        examples.append(example.SerializeToString())
+    return examples
 
 
 
