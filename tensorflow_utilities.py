@@ -171,6 +171,13 @@ def df_to_examples(df):
     return examples
 
 
+def dense_to_sparse(dense_tensor, out_type=tf.int64):
+    indices = tf.where(tf.not_equal(dense_tensor,
+                                    tf.constant(0, dense_tensor.dtype)))
+    values = tf.gather_nd(dense_tensor, indices)
+    shape = tf.shape(dense_tensor, out_type=out_type)
+    return tf.SparseTensor(indices, values, shape)
+
 
 #some pattern.
 
@@ -262,16 +269,6 @@ if __name__ == '__main__':
     FLAGS, unparsed = parser.parse_known_args()
     tf.app.run(main=main, argv=[sys.argv[0]] + unparsed)
     
-
-
-def dense_to_sparse(dense_tensor, out_type=tf.int64):
-    indices = tf.where(tf.not_equal(dense_tensor,
-                                    tf.constant(0, dense_tensor.dtype)))
-    values = tf.gather_nd(dense_tensor, indices)
-    shape = tf.shape(dense_tensor, out_type=out_type)
-    return tf.SparseTensor(indices, values, shape)
-
-
 
 
 #Optimization trick snippets.
