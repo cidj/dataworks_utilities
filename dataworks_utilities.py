@@ -28,12 +28,12 @@ def drop_columns(cols,actdata,inplace=False):
     """
     Drop all the given columns if they exist.
 
-    Parameters:
+    Parameter(s):
         cols: A list of columns to drop.
         actdata: A dataframe.
         inplace: Whether inplace.
 
-    Returns:
+    Return(s):
         actdata: A dataframe.
     """
 
@@ -48,11 +48,11 @@ def rem_str(prelist,names):
     """
     Remove some substrings from some given strings
 
-    Parameters:
+    Parameter(s):
         prelist: A list of the substrings.
         names: A list of strings.
 
-    Returns:
+    Return(s):
         names: The processed list.
     """
 
@@ -67,14 +67,14 @@ def list_duplicates_of(seq,item):
     List duplicates of an item in a sequence.
     From https://stackoverflow.com/questions/5419204/
 
-    Parameters:
+    Parameter(s):
         seq: The sequence.
         item: The item.
 
-    Returns:
+    Return(s):
         locs: An indexes list of the item in seq.
 
-    Example:
+    Example(s):
         In: source = "ABABDBAAEDSBQEWBAFLSAFB"
         In: print (list_duplicates_of(source, 'B'))
         Out: [1, 3, 5, 11, 15, 22]
@@ -98,13 +98,13 @@ def list_duplicates(seq,threshold=1):
     List duplicates of all items in a sequence.
     Modified from https://stackoverflow.com/questions/5419204/
 
-    Parameters:
+    Parameter(s):
         seq: The sequence.
 
-    Returns:
+    Return(s):
         locs: A generator for duplicates
 
-    Example:
+    Example(s):
         In: source = "ABABDBAAEDSBQEWBAFLSAFB"
         In: list(list_duplicates(source,threshold=2))
         Out :
@@ -127,15 +127,15 @@ def strSeq_uniquify(strSeq,connector='_'):
     """
     Rename a sequence of strings if there are two or more of them are identical.
 
-    Parameters:
+    Parameter(s):
         strSeq: The orignal sequence, probably a list or column names.
         connector: The connector between the name and the ordinal number.
 
-    Returns:
+    Return(s):
         new_strSeq: The new list with all the same names distinguished with
         numbers.
 
-    Example:
+    Example(s):
         In: strseq
         Out: Index(['blah', 'blah2', 'blah3', 'blah', 'blah'], dtype='object')
         In: strSeq_uniquify(strseq,connector='@')
@@ -164,14 +164,14 @@ def clear_columns(prefixlist,datas,style=0, inplace=False):
     names, it just picks on of them randomly, and drop others. (Make sure they
     are equal before using this function.
 
-    Parameters:
+    Parameter(s):
         prefixlist: A list of prefixes to remove.
         datas: The input dataframe.
         style: 0 means all letters are in lowercase, while 1 in uppercase and 2
         first character capitalized and the rest lowercased.
         inplace: Whether to return a new DataFrame.
 
-    Returns:
+    Return(s):
         datas.iloc[:, r]: The processed dataframe, which is a slice of the original
         one.
     """
@@ -201,11 +201,11 @@ def renorm(xlis,mlis):
     """
     Use a list/array mlis to modulate the values in list/array xlis and renormed the result.
 
-    Parameters:
+    Parameter(s):
         xlis: List/array to be tuned.
         mlis: Weights used to tune xlis.
 
-    Returns:
+    Return(s):
         A normalized array.
     """
 
@@ -217,10 +217,10 @@ def classlist_from_intervals(the_intervals):
     """
     Accept a list/array of numbers and return intervals as string type.
 
-    Parameters:
+    Parameter(s):
         the_intervals: A list or array to be sliced.
 
-    Returns:
+    Return(s):
         A string list of intervals.
     """
 
@@ -231,11 +231,11 @@ def to_class(numlist,classlist=string.ascii_lowercase):
     """
     Convert a list of numbers to a another list according to their order.
 
-    Parameters:
+    Parameter(s):
         numlist: A integer number list.
         classlist: Another list, letters by default.
 
-    Returns:
+    Return(s):
         A list of classes.
     """
 
@@ -246,12 +246,12 @@ def proba_redefined_predict(model,X,weigh):
     """
     To predict a classification problem with tuned weight on the results.
 
-    Parameters:
+    Parameter(s):
         model: Classification model with a predict_proba method.
         X: Data with features.
         weigh: Weights' list, the order should be the same to model.classes_.
 
-    Returns:
+    Return(s):
         predict: Tuned prediction result.
     """
 
@@ -267,12 +267,12 @@ def value_to_two_class(lim,val_arr,cla_arr=string.ascii_lowercase):
     """
     Compare the values to lim and return the classs according to the results.
 
-    Parameters:
+    Parameter(s):
         lim: Number as the limit.
         val_arr: The array to be classified.
         cla_arr: The array of classes' labels.
 
-    Returns:
+    Return(s):
         A list of two classes.
     """
 
@@ -284,11 +284,11 @@ def value_to_class_index(bin_arr, val_arr):
     Compare the values to a bin list and return the classs indices
     according to the results.
 
-    Parameters:
+    Parameter(s):
         bin_arr: A list of numbers.
         val_arr: The array to be classified.
 
-    Returns:
+    Return(s):
         Classes' indexes.
     """
 #    return pd.cut(val_arr,bin_arr,labels=False)
@@ -299,12 +299,12 @@ def value_to_class_label(bin_arr, val_arr,cla_arr=string.ascii_lowercase):
     Compare the values to a bin list and return the classs labels
     according to the results.
 
-    Parameters:
+    Parameter(s):
         bin_arr: A list of numbers..
         val_arr: The array to be classified.
         cla_arr: The array of classes' labels.
 
-    Returns:
+    Return(s):
         Classes' labels.
     """
 
@@ -316,11 +316,11 @@ def value_to_class_interval(bin_arr, val_arr):
     Compare the values to a bin list and return the intervals
     according to the results.
 
-    Parameters:
+    Parameter(s):
         bin_arr: A list of numbers..
         val_arr: The array to be classified.
 
-    Returns:
+    Return(s):
         Intervals as classes.
     """
 
@@ -330,14 +330,14 @@ def load_dataset(path_dir, filelist,numlist,dtype=None):
     """
     Load csv files according to specific numbers.
 
-    Parameters:
+    Parameter(s):
         path_dir: Path of the files.
         filelist: File names list.
         numlist: A list of numbers descirbes the number of records to load, respectively.
         If the number is negative, it means to load the entire file.
         dtype: The dtype in pandas.read_csv.
 
-    Returns:
+    Return(s):
         actdat: A dataframe.
     """
 
@@ -357,16 +357,16 @@ def append_to_csv(df, csvFilePath, sep=",", supersede=False):
     """
     Append a dataframe to a csv file.
 
-    Parameters:
+    Parameter(s):
         df: The dataframe.
         csvFilePath: The csv file path.
         sep: Separator of the file.
         supersede: If true, replace the existing file.
 
-    Returns:
+    Return(s):
         No return.
 
-    Example:
+    Example(s):
         In: df1
         Out:
           A_Id  P_Id   CN1   CN2   CN3
@@ -432,7 +432,7 @@ def csvs_scattered_to_grouped(path_dir, inlist, outlist, gcols,
     limited memory. This function takes time but make available to analyse big
     file through splitting it into smaller files.
 
-    Parameters:
+    Parameter(s):
         path_dir: File directory.
         inlist: Input file list.
         outlist: Output file list.
@@ -446,10 +446,10 @@ def csvs_scattered_to_grouped(path_dir, inlist, outlist, gcols,
         '_@_FILE_', or there might be some error due to the same name.
         supersede: If True, existing files with the same names will be replaced.
 
-    Returns:
+    Return(s):
         No return.
 
-    Example:
+    Example(s):
         File 1: 'new1.csv'
             A_Id	P_Id	CN1	CN2	CN3
             AAA	333	710	750	750
@@ -544,10 +544,10 @@ def all_equal(iterator):
     """Check if a sequence or other container contains identical element. The
     code is from http://stackoverflow.com/q/3844948/.
 
-    Parameters:
+    Parameter(s):
         iterator: A sequence or other iterable object.
 
-    Returns:
+    Return(s):
         If all elements are identical, return True, otherwise False.
     """
 
@@ -567,14 +567,14 @@ def brcadd(*args):
     length, in which case other non-list strings are added into every string
     in the list, like broadcasting.
 
-    Parameters:
+    Parameter(s):
         args: A list of strings or list of strings.
 
-    Returns:
+    Return(s):
         res: A list of strings. Here the length of the list equals to the length
         of the list in args.
 
-    Example:
+    Example(s):
         In: brcadd('xy',['a','bc','d'],'b')
         Out: ['xyab', 'xybcb', 'xydb']
     """
@@ -610,10 +610,10 @@ def flatten_one(list_of_lists):
     Flatten a list of object/list mix. It remove the brakets of the elements if
     there are lists, and imbed them there.
 
-    Parameters:
+    Parameter(s):
         list_of_lists: A list with lists in it.
 
-    Return:
+    Return(s):
         A list generator which removed one braket-layer.
     """
 
@@ -629,10 +629,10 @@ def flatten(lst):
     """
     Flatten a list until no list elements in it.
 
-    Parameters:
+    Parameter(s):
         lst: A list.
 
-    Return:
+    Return(s):
         A list generator.
     """
 
@@ -652,7 +652,7 @@ def classified_weighted_assess(jid,DfA,gbs,wg,DfB,vl):
     cost,time, to compute how the properties are split in a given group. This function
     may change the input dataframes.
 
-    Parameters:
+    Parameter(s):
         jid: The column name of the elements, for example, 'userId','byerId'. Here,
         the jid set in DfA is preferred to be the same as the jid set in DfB. For
         any items in DfA but not in DfB, they will get nan values. On the other hand,
@@ -669,14 +669,14 @@ def classified_weighted_assess(jid,DfA,gbs,wg,DfB,vl):
         multi-columns in more than one properties cases, where just use a values'
         list, e.g. ['time','cost'].
 
-    Returns:
+    Return(s):
         A_gbs_vl: A slice of dataframe, contains the group gbs as index, the weights
         of the group, the correlated elements number of the group and the values of
         the group.
         yyy: It's a two-column dataframe contains jid and the sum number of weights
         that connect to it.
 
-    Example:
+    Example(s):
         Suppose there are two dataframes. One (DfA) contains the ads (adid),operating
         system (os), viewtimes of ads (viewtimes), ids of users (uid), and their
         country (country). The other (DfB) contains ids of users (uid), the
@@ -804,13 +804,13 @@ def list_reorder(lis,dic,behind=True):
     """
     Reorder a list.
 
-    Parameters:
+    Parameter(s):
         lis: A list.
         dic: A dictionary, both keys and values shold be in the list.
         behind: If True, rearange the values just behind the keys; if False, in front
         of it.
 
-    Returns:
+    Return(s):
         A reordered list.
     """
 
@@ -833,7 +833,7 @@ def insert_with_labels(dat,dic,behind=True):
     Insert a series to a dataframe as a column, using the position of the label
     names.
 
-    Parameters:
+    Parameter(s):
         dat: The dataframe.
         dic: A dictionary in a 'label name: series name' form. Label name indicates
         the position to insert, and series name is the name of the series as the label
@@ -841,7 +841,7 @@ def insert_with_labels(dat,dic,behind=True):
         behind: If True, insert the columns behind the given columns, otherwise in
         front of them.
 
-    Returns:
+    Return(s):
         Dataframe.
     """
 
@@ -861,12 +861,12 @@ def save_obj_joblib(obj, obj_path,obj_name,supersede=False):
     """
     Save an object using joblib.dump.
 
-    Parameters:
+    Parameter(s):
         obj: The object to save.
         obj_path: Directory.
         obj_name: Name of the object file.
 
-    Returns:
+    Return(s):
         No return.
     """
 
@@ -895,7 +895,7 @@ def series_to_supervised(data, n_in=1, delta_in=1, n_out=1,delta_out=1, dropnan=
     """
     Frame a time series as a supervised learning dataset.
 
-    Parameters:
+    Parameter(s):
         data: Sequence of observations as a list or NumPy array.
         n_in: Number of lag observations as input (X).
         delta_in: Interval of input columns.
@@ -903,7 +903,7 @@ def series_to_supervised(data, n_in=1, delta_in=1, n_out=1,delta_out=1, dropnan=
         delta_out: Interval of output columns.
         dropnan: Boolean whether or not to drop rows with NaN values.
 
-    Returns:
+    Return(s):
         Pandas DataFrame of series framed for supervised learning.
     """
 
@@ -938,12 +938,12 @@ def inverse_cumsum(y,x0):
     """
     A inverse function of the numpy function cumsum, axis=-1 case.
 
-    Parameters:
+    Parameter(s):
         y: A cumsum array.
         x0: The fist element of the original array, which is needed when
         reconstructing it.
 
-    Returns:
+    Return(s):
         The original array.
     """
 
@@ -954,12 +954,12 @@ def inverse_diff(y,x0):
     """
     A inverse function of the numpy function diff, axis=-1 case.
 
-    Parameters:
+    Parameter(s):
         y: A diff array.
         x0: The fist element of the original array, which is needed when
         reconstructing it.
 
-    Returns:
+    Return(s):
         The original array.
     """
 
@@ -972,10 +972,10 @@ def diff_log(x):
     stocks, to make the data smooth and easy to handle. Mathematically, it coverts
     1-centered sequences to 0 centered ones and takes the differences.
 
-    Parameters:
+    Parameter(s):
         x: The original sequences.
 
-    Returns:
+    Return(s):
         Transformed sequences and the first elements of the orignial sequences,
     which may be used to do the inverse transformation.
     """
@@ -987,11 +987,11 @@ def inverse_diff_log(y,log0):
     """
     Inverse function of diff_log.
 
-    Parameters:
+    Parameter(s):
         y: The transformed sequence.
         log0: The log(x)[0] in diff_log function, or its second return.
 
-    Returns:
+    Return(s):
         The original sequence.
     """
 
@@ -1002,14 +1002,14 @@ def indices_one_hot(labels_indices, num_classes=10):
     """
     Convert class labels from scalars to one-hot vectors.
 
-    Parameters:
+    Parameter(s):
         labels_indices: The indices of labels.
         num_classes: The number of classes.
 
-    Returns:
+    Return(s):
         One hot encoded label indices.
 
-    Example:
+    Example(s):
         In: indices_one_hot(np.array([1,2,3]),4)
         Out:
             array([[ 0.,  1.,  0.,  0.],
@@ -1031,14 +1031,14 @@ def get_subdataframe(Acol,Bdf):
     If a column does not exit in the dataframe, the values are filled with nans.
     The columns' order is the same as that of the list.
 
-    Parameters:
+    Parameter(s):
         Acol: A column name list.
         Bdf: A dataframe which contains the columns.
 
-    Returns:
+    Return(s):
         A new dataframe.
 
-    Example:
+    Example(s):
         In: df = pd.DataFrame([[5, 6,9,10], [7, 8,4,3]], columns=list('BADE'))
         In: df
         Out:
@@ -1063,10 +1063,10 @@ def dataframe_diff(xxa,xxb):
     This function find the differences of two dataframes. Make
     sure there is no column named '_merge'.
 
-    Parameters:
+    Parameter(s):
         xxa, xxb: Two dataframes to be compared.
 
-    Returns:
+    Return(s):
         diff: A dataframe shows the differences of the inputs.
     """
 
@@ -1082,11 +1082,11 @@ def number_of_zeros(df,axis=0):
     """
     Count how many zeros in each row or column.
     
-    Parameters:
+    Parameter(s):
         df: Dataframe.
         axis: If row, axis=0, if column, axis=1.
         
-    Returns:
+    Return(s):
         A series indicating the number of zeros in each row/column.
     """
     
@@ -1097,11 +1097,11 @@ def filter_zeros(df,axis=0):
     """
     Remove rows/columns where all entries are zeros.
     
-    Parameters:
+    Parameter(s):
         df:Dataframe.
         axis: If row, axis=0, if column, axis=1.
     
-    Returns:
+    Return(s):
         A dataframe without rows/columns where all entries are zeros.
     """
     
@@ -1116,14 +1116,14 @@ def broadcast_merge(s,df):
     Receive a series and a dataframe, and merge them where the series is broadcast
     to every row of the dataframe.
     
-    Parameters:
+    Parameter(s):
         s: A series.
         df: A dataframe.
         
-    Returns:
+    Return(s):
         A dataframe.
         
-    Example:
+    Example(s):
         In: s = pd.Series({'s1':5, 's2':6})
         In: s
         Out: 
@@ -1156,16 +1156,16 @@ def apply_by_multiprocessing(df0,func,workers=4,**kwargs):
     Multiprocessing 'apply' for dataframes. Main idea of this function is from:
         https://gist.github.com/tejaslodaya/562a8f71dc62264a04572770375f4bba
 
-    Parameters:
+    Parameter(s):
         df: A dataframe.
         func: The function to apply.
         **kwargs: Other aguments, like axis. It also should contain workers which
         determines the number of works in processing.
 
-    Returns:
+    Return(s):
         A dataframe or series.
 
-    Example:
+    Example(s):
         In: df = pd.DataFrame({'a':range(10), 'b':range(10,20)})
         In: df
         Out:
@@ -1249,7 +1249,7 @@ def mgrid_box(X,axis=0,linj=200j,marg_rate=0.1):
     """
     Get a mesh grid range which covers all the n-dimentional points.
 
-    Parameters:
+    Parameter(s):
         X: An 2-D array, consists of vectors.
         axis: If 0, the shape of every vector in X is (-1,1), otherwise (1,-1).
         linj: If it is a complex number, it is the number of points to create
@@ -1257,11 +1257,11 @@ def mgrid_box(X,axis=0,linj=200j,marg_rate=0.1):
         the step length between them.
         marg_rate: It shows how much of the margins should be included.
 
-    Returns:
+    Return(s):
         zz: An array includes n subarrays. Here n is the space dimension. Each
         subarray contains coordinates of an axis.
 
-    Example:
+    Example(s):
         In: X
         Out:
         array([[4, 5],
@@ -1303,14 +1303,14 @@ def corresponding_ravel(X,axis=0):
     Given an n-dimentional array, remove its 0th dimention, ravel all other dimentions,
     and return an 2-D matrix.
 
-    Parameters:
+    Parameter(s):
         X: The input array.
         axis: If it is 0, the output contains columns, otherwise rows.
 
-    Returns:
+    Return(s):
         t1: A 2-D array.
 
-    Example:
+    Example(s):
         In: aa=np.array([[[0,1],[2,3]],[[4,5],[6,7]]])
         In: aa
         Out:
@@ -1340,12 +1340,12 @@ def color_marked_scatter_plot(data,marker_column,labels,dim=2):
     Plot scatter plot (use plot or scatter) where different classes/clusters
     have different colors/markers.
 
-    Parameters:
+    Parameter(s):
         data: Data,usually two columns for x and y coordinates.
         marker_column: A column used to mark different classes/clusters.
         plot_fun: The plot function, usually scatter, or plot.
 
-    Returns:
+    Return(s):
         color_dict: The color-class/clusters dictionary.
         marker_dict: The marker-class/clusters dictionary.
     """
@@ -1390,7 +1390,7 @@ def plot_region_prediction(X,model,linj=200j,marg_rate=0.1,centroids=None):
     """
     Plot a prediction 2-D figure using a classification or clustering model.
 
-    Parameters:
+    Parameter(s):
         X: The input data, contains two columns.
         model: The model, wich should have a 'predict' method.
         linj: Number of grids in each dimension. If it is a complex number, it
@@ -1400,7 +1400,7 @@ def plot_region_prediction(X,model,linj=200j,marg_rate=0.1,centroids=None):
         centroids: If it's clustering, you can add some centroids to plot. 2-col
         array.
 
-    Returns:
+    Return(s):
         fig: A figure.
     """
 
@@ -1433,13 +1433,13 @@ def pie_plot(data,ara,rd_f,cla_arr=string.ascii_lowercase):
     """
     Draw a pie chart using given data.
 
-    Parameters:
+    Parameter(s):
         data: Data, an array, a list or a series.
         ara: Bin list to generate intervals.
         rd_f: String of aggregate functions, such as 'size', 'sum', etc.
         cha_arr: Labels of class array.
 
-    Returns:
+    Return(s):
         No return.
     """
 
@@ -1462,12 +1462,12 @@ def plot_power_fitting(x,y,bias=True):
     """
     This function plot histograms and do the power fitting.
 
-    Parameters:
+    Parameter(s):
         x: Input x.
         y: Input y.
         bias: If True, bias is allowed.
 
-    Returns:
+    Return(s):
         popt: The regression coefficients' array.
         pcov: The estimated covariance of popt.
     """
@@ -1498,15 +1498,15 @@ def connect_array_by_last_dim(*data):
     as int to float, bool to int or float. Don't use other non-numerical data
     types.
 
-    Parameters:
+    Parameter(s):
         data: Some arrays to be connected
 
-    Returns:
+    Return(s):
         adata: An array, which is a connection of the inputs by the last dimension.
         bx: A vector/array of the indexes range of the input arrays in adata.
         atype: A list of the dtypes of the input arrays.
 
-    Example:
+    Example(s):
         In: a=np.array([[1,2],[3,4]])
         In: b=np.array([[5.0],[6.0]])
         In: c=np.array([[True],[False]])
@@ -1537,15 +1537,15 @@ def separate_array_by_last_dim(adata,bx,atype):
     of indexes of subarrays and types of subarrays and separate the input array
     to several arrays according to the indexes and types.
 
-    Parameters:
+    Parameter(s):
         adata: An array contains all subarrays, which are connected by the last dimension.
         bx: A vector/array of the indexes range of the subarrays in adata.
         atype: A list of the dtypes of the subarrays.
 
-    Returns:
+    Return(s):
         cx: Array(s) which are subarrays of adata.
 
-    Example:
+    Example(s):
         In: adata=np.array([[ 1.,  2.,  5.,  1.],
                      [ 3.,  4.,  6.,  0.]])
         In: bx=np.array([0, 2, 3, 4])
@@ -1571,7 +1571,7 @@ class BatchedDataset:
     """
     A dataset with next-batch method.
 
-    Parameters:
+    Parameter(s):
         data: Structured data.
         is_shuffle:If true, shuffle the data every epoch.
 
@@ -1651,13 +1651,13 @@ def pd_parse_column(ser,parse_fun,pick_row=0,workers=6):
     Due to the dataframes in different rows may have different columns, the columns of result dataframes
     are the uninon of them.
 
-    Parameters:
+    Parameter(s):
         ser: A series, it could be a column of some dataframe.
         parse_fun: A parse function which can parse the text in a cell and convert it to a dataframe (usually a one or two rows and many columns dataframe). It cannot be a lambda express.
         pick_row: The index of the row which belongs to the parse_fun created dataframe and is meant to be collected. When it is None, all rows will be collected to different dataframes.
         workers: The number of processes when applying the parse function parallelly.
 
-    Returns:
+    Return(s):
         ddf: A dataframe or a dictionary of dataframes.
     """
 
@@ -1713,13 +1713,13 @@ def supervised_count_feature(s1,s0):
     reflect the real feature, this method some times will cause overfitting. So
     becareful.
 
-    Parameters:
+    Parameter(s):
         s1: A feature series contains some categories. All the items/rows here
         are labeled 1.
         s0: A feature series contains some categories. All the items/rows here
         are labeled 0.
 
-    Returns:
+    Return(s):
         ss: A series, which contains the percentages of the sample counts of 1 class.
     """
     a1=s1.groupby(s1).count()
@@ -1736,11 +1736,11 @@ def supervised_add_count(ser,marker):
     In supervised feature processing, use supervised_count_feature function to get
     a feature column as a series. This may cause overfitting.
 
-    Parameters:
+    Parameter(s):
         ser: The series that to be processed.
         marker: A series of markers where there are 1s and 0s.
 
-    Returns:
+    Return(s):
         new_ser: A series as a feature column.
         ss: A series which is the distribution map.
     """
@@ -1760,10 +1760,10 @@ def supervised_add_count(ser,marker):
 #     Vectorize non-numeric features in dataframe while keep numeric features
 #     unchanged.
 #
-#     Parameters:
+#     Parameter(s):
 #         testdata: A dataframe.
 #
-#     Returns:
+#     Return(s):
 #         zzz: The result as a dataframe.
 #     """
 #
