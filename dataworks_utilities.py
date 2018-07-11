@@ -1110,6 +1110,43 @@ def filter_zeros(df,axis=0):
     else:
         return df.loc[(df != 0).any(axis=1-axis)]
     
+
+def broadcast_merge(s,df):
+    """
+    Receive a series and a dataframe, and merge them where the series is broadcast
+    to every row of the dataframe.
+    
+    Parameters:
+        s: A series.
+        df: A dataframe.
+        
+    Returns:
+        A dataframe.
+        
+    Example:
+        In: s = pd.Series({'s1':5, 's2':6})
+        In: s
+        Out: 
+            s1    5
+            s2    6
+        In: df = pd.DataFrame({'a':[1, 2], 'b':[3, 4]},index=['m','n'])
+        In: df
+        Out:
+               a  b
+            m  1  3
+            n  2  4            
+        In: broadcast_merge(s,df)
+        Out: 
+               s1  s2  a  b
+            m   5   6  1  3
+            n   5   6  2  4       
+    """
+    
+    return pd.merge(pd.DataFrame(data=[s.values]*len(df),
+                                 columns=s.index,
+                                 index=df.index),
+    df, left_index=True, right_index=True)
+    
     
 def _apply_df(args):
     df, func, num, kwargs = args
