@@ -1078,37 +1078,39 @@ def dataframe_diff(xxa,xxb):
 
     return diff
 
-def number_of_zeros(df,axis=0):
+def number_of_values(df,value=0,axis=0):
     """
-    Count how many zeros in each row or column.
+    Count how many values in each row or column.
     
     Parameter(s):
         df: Dataframe.
+        value: The value to count.
         axis: If row, axis=0, if column, axis=1.
         
     Return(s):
-        A series indicating the number of zeros in each row/column.
+        A series indicating the number of specific values in each row/column.
     """
     
-    return (df == 0).astype(int).sum(axis=1-axis)
+    return (df == value).astype(int).sum(axis=1-axis)
 
     
-def filter_zeros(df,axis=0):
+def filter_values(df, value=0, axis=0):
     """
-    Remove rows/columns where all entries are zeros.
+    Remove rows/columns where all entries are specific value (zero by default).
     
     Parameter(s):
         df:Dataframe.
+        value: The value.
         axis: If row, axis=0, if column, axis=1.
     
     Return(s):
-        A dataframe without rows/columns where all entries are zeros.
+        A dataframe without rows/columns where all entries are the value.
     """
     
     if axis:
-        return df.loc[:, (df != 0).any(axis=1-axis)]
+        return df.loc[:, (df != value).any(axis=1-axis)]
     else:
-        return df.loc[(df != 0).any(axis=1-axis)]
+        return df.loc[(df != value).any(axis=1-axis)]
     
 
 def broadcast_merge(s,df):
