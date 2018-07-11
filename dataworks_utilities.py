@@ -1078,7 +1078,39 @@ def dataframe_diff(xxa,xxb):
 
     return diff
 
+def number_of_zeros(df,axis=0):
+    """
+    Count how many zeros in each row or column.
+    
+    Parameters:
+        df: Dataframe.
+        axis: If row, axis=0, if column, axis=1.
+        
+    Returns:
+        A series indicating the number of zeros in each row/column.
+    """
+    
+    return (df == 0).astype(int).sum(axis=1-axis)
 
+    
+def filter_zeros(df,axis=0):
+    """
+    Remove rows/columns where all entries are zeros.
+    
+    Parameters:
+        df:Dataframe.
+        axis: If row, axis=0, if column, axis=1.
+    
+    Returns:
+        A dataframe without rows/columns where all entries are zeros.
+    """
+    
+    if axis:
+        return df.loc[:, (df != 0).any(axis=1-axis)]
+    else:
+        return df.loc[(df != 0).any(axis=1-axis)]
+    
+    
 def _apply_df(args):
     df, func, num, kwargs = args
     return num, df.apply(func, **kwargs)
