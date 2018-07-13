@@ -100,6 +100,7 @@ def list_duplicates(seq,threshold=1):
 
     Parameter(s):
         seq: The sequence.
+        threshold: Only duplicate times bigger than threshold will be listed.
 
     Return(s):
         locs: A generator for duplicates
