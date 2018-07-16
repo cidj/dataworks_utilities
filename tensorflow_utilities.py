@@ -321,8 +321,13 @@ def batch_norm(x, is_training, axes, decay=0.99, epsilon=1e-3,scope='bn', reuse=
 
 #         beta = tf.Variable(tf.constant(0.0, shape=[x.get_shape()[-1]]),name='beta', trainable=True)
 #         gamma = tf.Variable(tf.constant(1.0, shape=[x.get_shape()[-1]]),name='gamma', trainable=True)
-        beta = tf.get_variable("beta", x.get_shape()[-1], initializer=tf.constant_initializer(0.0), trainable=True)
-        gamma = tf.get_variable("gamma", x.get_shape()[-1], initializer=tf.constant_initializer(1.0), trainable=True)
+        beta = tf.get_variable("beta", x.get_shape()[-1], 
+                               initializer=tf.constant_initializer(0.0), 
+                               trainable=True)
+        gamma = tf.get_variable("gamma", 
+                                x.get_shape()[-1], 
+                                initializer=tf.constant_initializer(1.0),
+                                trainable=True)
         batch_mean, batch_var = tf.nn.moments(x, axes, name='moments')
         ema = tf.train.ExponentialMovingAverage(decay=decay)
         
