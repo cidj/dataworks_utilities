@@ -172,6 +172,10 @@ def df_to_examples(df):
 
 
 def dense_to_sparse(dense_tensor, out_type=tf.int64):
+    """
+    Convert a dense tensor to a sparse tensor. The tensor cannot be a string type.
+    
+    """
     indices = tf.where(tf.not_equal(dense_tensor,
                                     tf.constant(0, dense_tensor.dtype)))
     values = tf.gather_nd(dense_tensor, indices)
