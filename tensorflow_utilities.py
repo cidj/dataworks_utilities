@@ -179,6 +179,27 @@ def dense_to_sparse(dense_tensor, out_type=tf.int64):
     return tf.SparseTensor(indices, values, shape)
 
 
+def make_sparse_column_dict(dataframe):
+    """
+    Creates sparse tensors to hold values of columns in dataframe.
+    
+    Parameters:
+    dataframe -- pandas dataframe containing the values.
+    
+    Returns:
+    columns -- a dictionary of sparse tensors.
+    """ 
+    
+    columns = {
+        col_name: tf.SparseTensor(
+            indices = [[i] for i in range(len(dataframe[col_name]))],
+            values = dataframe[col_name].values,
+            dense_shape = [len(dataframe[col_name])]
+        )
+        for col_name in dataframe.columns
+    }
+    return columns
+
 #some pattern.
 
 def model_fn(model,features, labels, mode, params):
