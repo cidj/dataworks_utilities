@@ -1752,6 +1752,13 @@ def supervised_add_count(ser,marker):
     return new_ser,ss
 
 
+def id_group_time_expand(data,pids,dt,drange):
+    data_new=data.set_index(dt)\
+    .groupby(pids).apply(lambda d: d.reindex(drange))\
+    .drop(pids, axis=1).reset_index(pids)
+    return data_new
+
+
 # Deprecated:
 
 
