@@ -1759,6 +1759,14 @@ def id_group_time_expand(data,pids,dt,drange):
     return data_new
 
 
+def fftfunc(y,T):
+    N = len(y)
+    xf = np.linspace(0.0, 1.0/(2.0*T), N//2)    
+    yf = np.fft.fft(y)
+    yf_c=2.0/N * np.abs(yf[0:N//2])    
+    return(xf,yf_c,yf)
+
+
 # Deprecated:
 
 
